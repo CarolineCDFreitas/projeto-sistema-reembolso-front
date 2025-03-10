@@ -15,3 +15,13 @@ body {
 main {
     flex: 1;
 }
+
+button, input {
+    font-family: inherit;
+    font-weight: 400;
+}
+
+::placeholder {
+    font-family: inherit;
+    font-weight: 400;
+}
