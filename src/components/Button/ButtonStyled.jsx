@@ -20,14 +20,14 @@ const buttonHasIcon = ({ hasIcon }) => css`
   justify-content: ${hasIcon ? "space-between" : "initial"};
 `;
 
-const getBackgroundColor = ({ action, isModal, place }) => {
-  if (darkBlueButton.includes(action)) {
+const getBackgroundColor = ({ buttonAction, place }) => {
+  if (darkBlueButton.includes(buttonAction)) {
     return colors.azulEscuro;
-  } else if (lightBlueButton.includes(action)) {
+  } else if (lightBlueButton.includes(buttonAction)) {
     return colors.azulClaro;
-  } else if (action === "cancelar") {
-    return isModal ? colors.azulClaro : colors.vermelho;
-  } else if (place === "menu" && action === "sair") {
+  } else if (buttonAction === "cancelar") {
+    return place === "modal" ? colors.azulClaro : colors.vermelho;
+  } else if (place === "menu" && buttonAction === "sair") {
     return colors.cinza;
   } else if (place === "menu") {
     return colors.azulNavy;
@@ -36,16 +36,16 @@ const getBackgroundColor = ({ action, isModal, place }) => {
   }
 };
 
-const settingPadding = ({ action, place }) => {
-  const actionsOfLogin = ["entrar", "criar"];
-  if (actionsOfLogin.includes(action)) {
+const settingPadding = ({ buttonAction, place }) => {
+  const buttonActionsOfLogin = ["entrar", "criar"];
+  if (buttonActionsOfLogin.includes(buttonAction)) {
     return "0.7em 1.5em";
   }
 
   if (place === "menu") return ".725em";
 
-  const actionsOfMenu = ["salvar", "fechar"];
-  if (actionsOfMenu.includes(action)) return ".525em";
+  const buttonActionsOfMenu = ["salvar", "fechar"];
+  if (buttonActionsOfMenu.includes(buttonAction)) return ".525em";
 
   return "0.75em 1.75em";
 };
