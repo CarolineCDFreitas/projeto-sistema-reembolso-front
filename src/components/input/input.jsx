@@ -1,32 +1,79 @@
 import {
-  LoginField,
   InputField,
-  TextField,
   InputArea,
-  Title,
-  Logo,
-  Paragraph,
   ForgotMyPassword,
+  ButtonField,
 } from "./inputStyle";
-import logo from "../../assets/logo.png";
-import Link from "next/link";
+import Button from "../Button/Button";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 function Input() {
+  const schemas = {
+    email: z.string().email("Digite um email válido"),
+    senha: z.string().min(6, "A senha tem que ter no mínimo 6 dígitos"),
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm({
+    resolver: zodResolver(z.object(schemas)),
+    mode: "onChange",
+  });
+
+  const [emailValue, senhaValue] = watch(["email", "senha"], ["", ""]);
+
+  const sending = (data) => {
+    console.log(data);
+  };
+
   return (
-    <LoginField>
-      <TextField>
-        <Logo src={logo} alt="logo da empresa Wilson" />
-        <Title> Boas vindas ao Novo Portal SISPAR</Title>
-        <Paragraph>Sistema de Emissão de Boletos e Parcelamento</Paragraph>
-      </TextField>
-
-      <InputField>
-        <InputArea type="email" placeholder="Email" />
-        <InputArea type="text" placeholder="Senha" />
-
-        <ForgotMyPassword href="/"> Esqueci minha senha</ForgotMyPassword>
+    <>
+      <InputField
+        onSubmit={handleSubmit(sending)}
+        autoComplete="off"
+        id="login"
+      >
+        <InputArea
+          type="email"
+          placeholder="Email"
+          name="email"
+          {...register("email")}
+          hasError={!!errors.email && emailValue}
+        />
+        {errors.email && emailValue !== "" && (
+          <span>{errors.email.message}</span>
+        )}
+        <InputArea
+          type="password"
+          placeholder="Senha"
+          name="senha"
+          autoComplete="current-password"
+          {...register("senha")}
+          hasError={!!errors.senha && senhaValue}
+        />
+        {errors.senha && senhaValue !== "" && (
+          <span>{errors.senha.message}</span>
+        )}
       </InputField>
-    </LoginField>
+
+      <ForgotMyPassword href="/"> Esqueci minha senha</ForgotMyPassword>
+
+      <ButtonField>
+        <Button
+          label="Entrar"
+          buttonAction="entrar"
+          // type="submit"
+          // form="login"
+        />
+        <Button label="Criar conta" buttonAction="criar" />
+      </ButtonField>
+    </>
   );
 }
 

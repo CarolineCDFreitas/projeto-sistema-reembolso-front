@@ -1,7 +1,7 @@
 import { ButtonStyled } from "./ButtonStyled.jsx";
 
 /**
- * @param {Object} props
+ *
  * @param {string} props.buttonAction - Define o estilo e o comportamento do botão.
  *  Valores aceitos: "entrar", "criar", "editar", "limpar", "salvar", "excluir", "enviar", "fechar", "sair", "cancelar".
  *  Quando `buttonAction` for "cancelar" e o `place` for "modal", o botão será estilizado para o modal.
@@ -10,9 +10,14 @@ import { ButtonStyled } from "./ButtonStyled.jsx";
  * @returns {JSX.Element} - O componente Button estilizado e reutilizável.
  */
 
-function Button({ label, children, buttonAction, hasIcon, place }) {
+function Button({ label, children, buttonAction, hasIcon, place, ...props }) {
   return (
-    <ButtonStyled buttonAction={buttonAction} hasIcon={hasIcon} place={place}>
+    <ButtonStyled
+      buttonAction={buttonAction}
+      hasIcon={hasIcon}
+      place={place}
+      {...props}
+    >
       {children || label}
     </ButtonStyled>
   );
