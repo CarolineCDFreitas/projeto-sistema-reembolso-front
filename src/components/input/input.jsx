@@ -3,12 +3,14 @@ import {
   InputArea,
   ForgotMyPassword,
   ButtonField,
-} from "./inputStyle";
+} from "./InputStyle";
 import Button from "../Button/Button";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { useRouter } from "next/navigation";
 
 function Input() {
   const schemas = {
@@ -31,6 +33,8 @@ function Input() {
   const sending = (data) => {
     console.log(data);
   };
+
+  const router = useRouter();
 
   return (
     <>
@@ -70,6 +74,7 @@ function Input() {
           buttonAction="entrar"
           // type="submit"
           // form="login"
+          onClick={() => router.push("/reembolsos")}
         />
         <Button label="Criar conta" buttonAction="criar" />
       </ButtonField>

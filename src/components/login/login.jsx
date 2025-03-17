@@ -6,8 +6,8 @@ import {
   Logo,
   Title,
   Paragraph,
-} from "./loginStyle";
-import Input from "../Input/input";
+} from "./LoginStyle";
+import Input from "../Input/Input";
 import backgroundImage from "../../assets/backgroundLogin.png";
 import logo from "../../assets/logo.png";
 
