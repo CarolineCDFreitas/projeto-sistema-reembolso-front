@@ -6,10 +6,7 @@
 
 body {
     /* border: 2px solid magenta; */
-    display: flex;
-    flex-direction: column;
-    min-width: fit-content;
-    max-width: 100vw;
+    display: flex;    
 }
 
 main {

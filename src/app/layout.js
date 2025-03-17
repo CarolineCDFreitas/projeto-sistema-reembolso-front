@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
-import "./globalstyle.css"
-
+import "./globalstyle.css";
 
 export const metadata = {
   title: "Portal SISPAR",
