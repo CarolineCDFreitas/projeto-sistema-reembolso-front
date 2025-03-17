@@ -37,10 +37,10 @@ function Header() {
       </Button>
       <UserInfo menu={menu}>
         <ImageStyled src={Profile} alt="ícone de anônimo" />
-        <details menu="false" open={menu}>
-          <summary menu="false">{name}</summary>
+        <section menu="false">
+          <h2 menu="false">{name}</h2>
           <p>{jobTitle}</p>
-        </details>
+        </section>
       </UserInfo>
       <nav>
         <NavListStyled menu={menu}>

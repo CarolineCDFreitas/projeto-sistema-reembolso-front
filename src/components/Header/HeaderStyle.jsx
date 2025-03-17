@@ -45,7 +45,7 @@ export const HeaderStyled = styled.header`
   justify-content: space-between;
   /* border: 2px solid rebeccapurple; */
   padding: 1.25rem;
-  margin-left: 0.25rem;
+  margin-left: 0.125rem;
   width: ${({ menu }) => (menu ? "180px" : "fit-content")};
   height: 100vh;
   box-shadow: ${({ menu }) => (menu ? "4px 0px 12px 0px #0A0F1E1F" : "0")};
@@ -120,32 +120,26 @@ export const UserInfo = styled.section`
   padding: ${({ menu }) => (menu ? "0.0175rem" : "0")};
   transition: padding ease 0.3s;
 
-  details {
+  section {
     /* border: 2px solid aquamarine; */
     visibility: ${({ menu }) => (menu ? "visible" : "hidden")};
     width: ${({ menu }) => (menu ? "fit-content" : "0")};
+    height: ${({ menu }) => (menu ? "fit-content" : "0")};
     padding: 0.175rem;
     animation: ${({ menu }) => (menu ? fadeIn : fadeOut)} 0.3s ease forwards;
+    overflow: hidden;
 
-    &[open] {
-      visibility: ${({ menu }) => (menu ? "visible" : "hidden")};
-      animation: ${({ menu }) => (menu ? fadeIn : fadeOut)} 0.3s ease forwards;
-    }
-
-    summary {
-      list-style: none;
+    h2 {
       font-weight: 700;
+      font-size: 1rem;
       text-align: center;
       padding: ${({ menu }) => (menu ? "0" : "0.25rem")};
-      visibility: ${({ menu }) => (menu ? "visible" : "hidden")};
-      transition: summary ease 0.2s;
-      width: ${({ menu }) => (menu ? "fit-content" : "0")};
+      transition: h2 ease 0.2s, height ease 0.2s;
       height: ${({ menu }) => (menu ? "fit-content" : "0")};
       /* border: 2px solid darkred; */
       animation: ${({ menu }) => (menu ? fadeIn : fadeOut)} 0.3s ease forwards;
-      pointer-events: none;
-      overflow: hidden;
     }
+
     p {
       font-size: 0.875rem;
       color: #0844c4;
