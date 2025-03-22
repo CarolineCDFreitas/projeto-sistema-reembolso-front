@@ -23,10 +23,10 @@ export const InputArea = styled.input`
   &:focus,
   &:active {
     outline: ${({ hasError }) =>
-      hasError ? " 0 solid transparent" : "0.255rem solid #cbd4e1"};
-    outline-offset: 0.045rem;
+      hasError ? "0 solid transparent" : "0.255rem solid #cbd4e1"};
+    outline-offset: 0;
     border: ${({ hasError }) =>
-      hasError ? "0.125rem solid #A60B2F" : "0 solid #23282f"};
+      hasError ? "0.125rem solid #A60B2F" : "0.05rem solid #23282f"};
     border-radius: 0.375rem;
   }
 `;
