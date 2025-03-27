@@ -1,10 +1,10 @@
 "use client";
 import { CardsStyled, Content } from "./CardsStyled";
 
-function Cards({children, ...props}) {
+function Cards({ adjustingPadding, children, ...props }) {
   return (
     <>
-      <CardsStyled {...props}>
+      <CardsStyled adjustingPadding={adjustingPadding} {...props}>
         <Content>{children}</Content>
       </CardsStyled>
     </>
