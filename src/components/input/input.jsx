@@ -44,6 +44,7 @@ function Input() {
         id="login"
       >
         <InputArea
+          width="xLarge"
           type="email"
           placeholder="Email"
           name="email"
@@ -54,6 +55,7 @@ function Input() {
           <span>{errors.email.message}</span>
         )}
         <InputArea
+          width="xLarge"
           type="password"
           placeholder="Senha"
           name="senha"

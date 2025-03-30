@@ -45,7 +45,7 @@ export const HeaderStyled = styled.header`
   justify-content: space-between;
   /* border: 2px solid rebeccapurple; */
   padding: 1.25rem;
-  margin-left: 0.125rem;
+  /* margin-left: 0.125rem; */
   width: ${({ menu }) => (menu ? "180px" : "fit-content")};
   height: 100vh;
   box-shadow: ${({ menu }) => (menu ? "4px 0px 12px 0px #0A0F1E1F" : "0")};

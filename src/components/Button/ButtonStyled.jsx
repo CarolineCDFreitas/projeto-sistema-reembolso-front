@@ -44,8 +44,8 @@ const settingPadding = ({ buttonAction, place }) => {
 
   if (place === "menu") return ".725em";
 
-  const buttonActionsOfMenu = ["salvar", "fechar"];
-  if (buttonActionsOfMenu.includes(buttonAction)) return ".525em";
+  const buttonActionsOfMenu = ["salvar", "limpar"];
+  if (buttonActionsOfMenu.includes(buttonAction)) return ".825em";
 
   return "0.75em 1.75em";
 };
