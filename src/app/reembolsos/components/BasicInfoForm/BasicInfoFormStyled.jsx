@@ -36,6 +36,7 @@ export const InputSection = styled.section`
   max-width: fit-content;
   height: fit-content;
   gap: 0.5rem;
+  position: relative;
   grid-area: ${({ gridArea }) => (gridArea ? gridArea : "unset")};
 
   label {
