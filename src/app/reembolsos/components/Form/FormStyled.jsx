@@ -6,12 +6,12 @@ export const FormStyled = styled.form`
   /* border: 2px solid darkmagenta; */
   margin-top: 1.25rem;
   gap: 0.05rem;
+  position: relative;
 
   @media (min-width: 1024px) {
     flex-direction: row;
 
     &:last-of-type {
-      position: relative;
 
       &::before {
         content: " ";

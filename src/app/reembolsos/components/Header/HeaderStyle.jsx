@@ -51,6 +51,7 @@ export const HeaderStyled = styled.header`
   box-shadow: ${({ menu }) => (menu ? "4px 0px 12px 0px #0A0F1E1F" : "0")};
   transition: width 0.3s ease;
   position: fixed;
+  z-index: 100;
   background-color: white;
 
   button,

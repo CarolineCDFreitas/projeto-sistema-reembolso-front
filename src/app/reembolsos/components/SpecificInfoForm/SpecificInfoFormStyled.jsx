@@ -43,7 +43,6 @@ export const DataField = styled(InputArea)`
   color: #898d93;
   padding: 0.625rem;
   text-transform: uppercase;
-  z-index: 3;
   position: relative;
 
   &::-webkit-calendar-picker-indicator {
@@ -102,7 +101,7 @@ export const SelectContainer = styled.div`
     position: absolute;
     width: 30px;
     height: 40px;
-    top: 1%;
+    top: ${({hasError}) => hasError ? "2%" : "1%"};
     right: 0.3%;
     border-radius: 0 5px 5px 0;
     pointer-events: none;
