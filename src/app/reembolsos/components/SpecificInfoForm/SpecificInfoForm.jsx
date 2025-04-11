@@ -8,9 +8,18 @@ import {
   ExpenseSelect,
   SelectContainer,
 } from "../SpecificInfoForm/SpecificInfoFormStyled";
+import MessageError from "../MessageError/MessageError";
 import { ButtonField, InputArea } from "@/components/Input/InputStyle";
+import { useFormContext } from "react-hook-form";
 
-function SpecificInfoForm() {
+function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const shouldShowError = (field) => errors[field] && focusedField[field];
+
   return (
     <FieldsetSpecificStyled>
       <legend>Informações específicas da solicitação de Reembolso</legend>
@@ -139,8 +148,16 @@ function SpecificInfoForm() {
             type="text"
             name="valorKm"
             id="valorKm"
+            {...register("valorKm")}
+            hasError={errors.valorKm}
+            autoComplete="off"
             required
+            onFocus={() => handleOnFocus("valorKm")}
+            onBlur={() => handleOnBlur("valorKm")}
           />
+          {shouldShowError("valorKm") && (
+            <MessageError>{errors.valorKm.message}</MessageError>
+          )}
         </InputSection>
         <InputSection>
           <label htmlFor="valorFaturado">Valor faturado</label>
