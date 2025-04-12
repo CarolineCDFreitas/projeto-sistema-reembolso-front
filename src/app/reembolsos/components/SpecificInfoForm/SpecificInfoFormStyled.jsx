@@ -38,8 +38,8 @@ export const FieldsetSpecificStyled = styled(FieldsetBasicStyled)`
 `;
 
 export const DataField = styled(InputArea)`
-  width: fit-content;
-  height: fit-content;
+  width: max-content;
+  height: 43px;
   color: #898d93;
   padding: 0.625rem;
   text-transform: uppercase;
@@ -57,10 +57,10 @@ export const DataField = styled(InputArea)`
     padding: 0.05rem;
     margin: 6.25rem;
     transform: translateY(-208%);
-    top: -49%;
-    right: -75%;
+    top: -22%;
+    right: -72%;
     width: 30px;
-    height: 38px;
+    height: 43px;
     text-align: center;
     border-radius: 0 5.9px 6px 0;
     z-index: 1;
@@ -76,8 +76,8 @@ export const DataField = styled(InputArea)`
     width: 24px;
     height: 24px;
     margin: 12.5rem;
-    top: -508%;
-    right: -143%;
+    top: ${({ hasError }) => (hasError ? "-480%" : "-460%")};
+    right: -141%;
     z-index: 2;
     pointer-events: none;
   }
@@ -88,7 +88,6 @@ export const ExpenseSelect = styled(InputArea)`
   height: fit-content;
   font-family: inherit;
   appearance: none;
-
 `;
 
 export const SelectContainer = styled.div`
@@ -101,7 +100,7 @@ export const SelectContainer = styled.div`
     position: absolute;
     width: 30px;
     height: 40px;
-    top: ${({hasError}) => hasError ? "2%" : "1%"};
+    top: ${({ hasError }) => (hasError ? "2%" : "1%")};
     right: 0.3%;
     border-radius: 0 5px 5px 0;
     pointer-events: none;
