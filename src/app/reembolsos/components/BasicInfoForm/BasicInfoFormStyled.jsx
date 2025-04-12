@@ -27,6 +27,12 @@ export const FieldsetBasicStyled = styled.fieldset`
     height: 1px;
     margin: -1px;
   }
+
+  div + section {
+    label{
+      margin-block-start: .1875rem;
+    }
+  }
 `;
 
 export const InputSection = styled.section`

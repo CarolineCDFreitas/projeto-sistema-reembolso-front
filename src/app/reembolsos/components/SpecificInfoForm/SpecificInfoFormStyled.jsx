@@ -26,7 +26,7 @@ export const FieldsetSpecificStyled = styled(FieldsetBasicStyled)`
         justify-self: right;
     } */
 
-  gap: 1.7rem;
+  gap: 1.875rem;
   /* border: 2px solid darkgoldenrod; */
   div {
     gap: 0.5rem;

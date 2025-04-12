@@ -12,11 +12,10 @@ export const FormStyled = styled.form`
     flex-direction: row;
 
     &:last-of-type {
-
       &::before {
         content: " ";
         width: 0.0625rem;
-        height: 11.25rem;
+        height: 11.5rem;
         background-color: #cbd4e1;
         position: absolute;
         top: 6%;
