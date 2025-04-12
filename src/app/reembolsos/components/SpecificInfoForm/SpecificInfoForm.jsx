@@ -8,7 +8,7 @@ import {
   ExpenseSelect,
   SelectContainer,
 } from "../SpecificInfoForm/SpecificInfoFormStyled";
-import MessageError from "../MessageError/MessageError";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { ButtonField, InputArea } from "@/components/Input/InputStyle";
 import { useFormContext } from "react-hook-form";
 
@@ -16,9 +16,29 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
   const {
     register,
     formState: { errors },
+    reset,
   } = useFormContext();
 
-  const shouldShowError = (field) => errors[field] && focusedField[field];
+  const renderErrorMessage = (field) => {
+    if (errors[field] && focusedField[field]) {
+      if (field === "moeda") {
+        return (
+          <ErrorMessage id={`erro-${field}`} compactSpace>
+            {errors[field].message}
+          </ErrorMessage>
+        );
+      }
+
+      return (
+        <ErrorMessage id={`erro-${field}`}>
+          {errors[field].message}
+        </ErrorMessage>
+      );
+    }
+  };
+
+  const handleFocus = (e) => handleOnFocus(e.target.name);
+  const handleBlur = (e) => handleOnBlur(e.target.name);
 
   return (
     <FieldsetSpecificStyled>
@@ -27,17 +47,33 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
       <div>
         <InputSection>
           <label htmlFor="data">Data</label>
-          <DataField type="date" name="data" id="data" required />
+          <DataField
+            type="date"
+            name="data"
+            id="data"
+            {...register("data")}
+            hasError={errors.data}
+            autoComplete="off"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-data"
+          />
+          {renderErrorMessage("data")}
         </InputSection>
         <InputSection>
           <label htmlFor="tipoDeDespesa">Tipo de Despesa</label>
-          <SelectContainer>
+          <SelectContainer hasError={errors.tipoDeDespesa}>
             <ExpenseSelect
               as={"select"}
               name="tipoDeDespesa"
               id="tipoDeDespesa"
               defaultValue="selecionar"
-              required
+              {...register("tipoDeDespesa")}
+              hasError={errors.tipoDeDespesa}
+              autoComplete="off"
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              aria-describedby="erro-tipoDeDespesa"
             >
               <option value="selecionar" disabled>
                 Selecionar
@@ -54,18 +90,24 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
                 Eventos de representação
               </option>
             </ExpenseSelect>
+            {renderErrorMessage("tipoDeDespesa")}
           </SelectContainer>
         </InputSection>
         <InputSection>
           <label htmlFor="centro">Centro de custo</label>
-          <SelectContainer>
+          <SelectContainer hasError={errors.centro}>
             <ExpenseSelect
               as={"select"}
               name="centro"
               id="centro"
               defaultValue="selecionar"
               centro
-              required
+              {...register("centro")}
+              hasError={errors.centro}
+              autoComplete="off"
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              aria-describedby="erro-centro"
             >
               <option value="selecionar" disabled>
                 Selecionar
@@ -80,18 +122,24 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
                 1100110102 - FIN CONTABILIDADE MTZ
               </option>
             </ExpenseSelect>
+            {renderErrorMessage("centro")}
           </SelectContainer>
         </InputSection>
         <InputSection>
           <label htmlFor="moeda">Moeda</label>
-          <SelectContainer>
+          <SelectContainer hasError={errors.moeda}>
             <ExpenseSelect
               as={"select"}
               name="moeda"
               id="moeda"
               defaultValue="selecionar"
               moeda
-              required
+              {...register("moeda")}
+              hasError={errors.moeda}
+              autoComplete="off"
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              aria-describedby="erro-moeda"
             >
               <option value="selecionar" disabled>
                 Selecionar
@@ -102,6 +150,7 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
               <option value="JPY">JPY</option>
               <option value="GBP">GBP</option>
             </ExpenseSelect>
+            {renderErrorMessage("moeda")}
           </SelectContainer>
         </InputSection>
       </div>
@@ -114,8 +163,15 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             type="text"
             name="ordemInterna"
             id="ordemInterna"
-            required
+            placeholder="0000"
+            {...register("ordemInterna")}
+            hasError={errors.ordemInterna}
+            autoComplete="off"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-ordemInterna"
           />
+          {renderErrorMessage("ordemInterna")}
         </InputSection>
         <InputSection>
           <label htmlFor="divisao">Div.</label>
@@ -124,12 +180,32 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             type="text"
             name="divisao"
             id="divisao"
-            required
+            placeholder="000"
+            {...register("divisao")}
+            hasError={errors.divisao}
+            autoComplete="off"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-divisao"
           />
+          {renderErrorMessage("divisao")}
         </InputSection>
         <InputSection>
           <label htmlFor="pep">PEP</label>
-          <InputArea width="small" type="text" name="pep" id="pep" required />
+          <InputArea
+            width="small"
+            type="text"
+            name="pep"
+            id="pep"
+            placeholder="000"
+            {...register("pep")}
+            hasError={errors.pep}
+            autoComplete="off"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-pep"
+          />
+          {renderErrorMessage("pep")}
         </InputSection>
         <InputSection>
           <label htmlFor="distKm">Dist / Km</label>
@@ -138,8 +214,15 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             type="text"
             name="distKm"
             id="distKm"
-            required
+            placeholder="0000"
+            {...register("distKm")}
+            hasError={errors.distKm}
+            autoComplete="off"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-distKm"
           />
+          {renderErrorMessage("distKm")}
         </InputSection>
         <InputSection>
           <label htmlFor="valorKm">Valor / Km</label>
@@ -148,16 +231,15 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             type="text"
             name="valorKm"
             id="valorKm"
+            placeholder="000.00"
             {...register("valorKm")}
             hasError={errors.valorKm}
             autoComplete="off"
-            required
-            onFocus={() => handleOnFocus("valorKm")}
-            onBlur={() => handleOnBlur("valorKm")}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-valorKm"
           />
-          {shouldShowError("valorKm") && (
-            <MessageError>{errors.valorKm.message}</MessageError>
-          )}
+          {renderErrorMessage("valorKm")}
         </InputSection>
         <InputSection>
           <label htmlFor="valorFaturado">Valor faturado</label>
@@ -166,8 +248,15 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             type="text"
             name="valorFaturado"
             id="valorFaturado"
-            required
+            placeholder="000.00"
+            {...register("valorFaturado")}
+            hasError={errors.valorFaturado}
+            autoComplete="off"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-valorFaturado"
           />
+          {renderErrorMessage("valorFaturado")}
         </InputSection>
         <InputSection>
           <label htmlFor="despesaTotal">Despesa</label>
@@ -176,14 +265,21 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             type="text"
             name="despesaTotal"
             id="despesaTotal"
-            required
+            placeholder="000.00"
+            {...register("despesaTotal")}
+            hasError={errors.despesaTotal}
+            autoComplete="off"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            aria-describedby="erro-despesaTotal"
           />
+          {renderErrorMessage("despesaTotal")}
         </InputSection>
         <ButtonField>
           <Button buttonAction="salvar" hasIcon>
             <MdAdd /> <span>Salvar</span>
           </Button>
-          <Button buttonAction="limpar" type="reset">
+          <Button buttonAction="limpar" type="button" onClick={() => reset()}>
             <RiDeleteBack2Line />
           </Button>
         </ButtonField>
@@ -191,5 +287,4 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
     </FieldsetSpecificStyled>
   );
 }
-
 export default SpecificInfoForm;
