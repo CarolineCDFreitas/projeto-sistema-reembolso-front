@@ -1,7 +1,11 @@
 import { Message } from "./ErrorMessageStyled";
 
-function ErrorMessage({ children, compactSpace }) {
-  return <Message compactSpace={compactSpace}>{children}</Message>;
+function ErrorMessage({ children, compactSpace, hasError }) {
+  return (
+    <Message compactSpace={compactSpace} hasError={hasError}>
+      {children}
+    </Message>
+  );
 }
 
 export default ErrorMessage;

@@ -12,4 +12,5 @@ export const Message = styled.span`
   padding: 0.25rem;
   top: 94%;
   left: 0;
+  visibility: ${({ hasError }) => (hasError ? "visible" : "hidden")};
 `;

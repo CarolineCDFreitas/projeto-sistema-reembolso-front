@@ -19,6 +19,7 @@ export const FieldsetBasicStyled = styled.fieldset`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.375rem;
   }
 
   legend {
@@ -29,8 +30,22 @@ export const FieldsetBasicStyled = styled.fieldset`
   }
 
   div + section {
-    label{
-      margin-block-start: .1875rem;
+    label {
+      margin-block-start: 0.1875rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    position: relative;
+
+    &::after {
+      content: " ";
+      width: 0.0625rem;
+      height: 11.375rem;
+      background-color: #cbd4e1;
+      position: absolute;
+      top: 3%;
+      left: -2%;
     }
   }
 `;
@@ -43,7 +58,8 @@ export const InputSection = styled.section`
   height: fit-content;
   gap: 0.5rem;
   position: relative;
-  grid-area: ${({ gridArea }) => (gridArea ? gridArea : "unset")};
+  min-height: 1.25rem;
+  /* grid-area: ${({ gridArea }) => (gridArea ? gridArea : "unset")}; */
 
   label {
     font-weight: 700;
@@ -57,4 +73,10 @@ export const TextArea = styled(InputArea)`
   color: #23282f;
   font-family: inherit;
   resize: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;

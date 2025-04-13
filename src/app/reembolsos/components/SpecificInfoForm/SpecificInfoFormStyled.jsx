@@ -28,6 +28,8 @@ export const FieldsetSpecificStyled = styled(FieldsetBasicStyled)`
 
   gap: 1.875rem;
   /* border: 2px solid darkgoldenrod; */
+  
+
   div {
     gap: 0.5rem;
   }
@@ -35,11 +37,15 @@ export const FieldsetSpecificStyled = styled(FieldsetBasicStyled)`
   div + div {
     align-items: last baseline;
   }
+
+  section:last-of-type {
+    padding-right: 0;
+  }
 `;
 
 export const DataField = styled(InputArea)`
-  width: max-content;
-  height: 43px;
+  width: 100%;
+  height: 2.6875rem;
   color: #898d93;
   padding: 0.625rem;
   text-transform: uppercase;
@@ -59,10 +65,10 @@ export const DataField = styled(InputArea)`
     transform: translateY(-208%);
     top: -22%;
     right: -72%;
-    width: 30px;
-    height: 43px;
+    width: 1.875rem;
+    height: 2.6875rem;
     text-align: center;
-    border-radius: 0 5.9px 6px 0;
+    border-radius: 0 0.3688rem 0.375rem 0;
     z-index: 1;
     pointer-events: none;
   }
@@ -73,8 +79,8 @@ export const DataField = styled(InputArea)`
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     margin: 12.5rem;
     top: ${({ hasError }) => (hasError ? "-480%" : "-460%")};
     right: -141%;
@@ -84,8 +90,9 @@ export const DataField = styled(InputArea)`
 `;
 
 export const ExpenseSelect = styled(InputArea)`
-  width: ${({ moeda }) => (moeda ? "7.1875rem" : "max-content")};
-  height: fit-content;
+  width: ${({ moeda }) => (moeda ? "7.1875rem" : "100%")};
+  max-width: 100%;
+  height: 2.6875rem;
   font-family: inherit;
   appearance: none;
 `;
@@ -98,11 +105,11 @@ export const SelectContainer = styled.div`
 
     background-color: #001a3d;
     position: absolute;
-    width: 30px;
-    height: 40px;
+    width: 1.875rem;
+    height: ${({ hasError }) => (hasError ? "40px" : "41.5px")};
     top: ${({ hasError }) => (hasError ? "2%" : "1%")};
-    right: 0.3%;
-    border-radius: 0 5px 5px 0;
+    right: ${({ centro }) => (centro ? "0.2%" : "0.5%")};
+    border-radius: 0 0.3125rem 0.3125rem 0;
     pointer-events: none;
   }
 
@@ -115,7 +122,7 @@ export const SelectContainer = styled.div`
     width: 1.5rem;
     height: 1.5rem;
     top: 18%;
-    right: 1.5%;
+    right: ${({centro}) => centro ? "1%": "2%"};
     z-index: 2;
     pointer-events: none;
   }
