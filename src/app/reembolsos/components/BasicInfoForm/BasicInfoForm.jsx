@@ -2,11 +2,17 @@ import {
   FieldsetBasicStyled,
   TextArea,
   InputSection,
+  CharacterCounter,
 } from "../BasicInfoForm/BasicInfoFormStyled";
 import { InputArea } from "@/components/Input/InputStyle";
 import { useFormContext } from "react-hook-form";
 
-function BasicInfoForm({ handleOnBlur, handleOnFocus, renderErrorMessage }) {
+function BasicInfoForm({
+  focusedField,
+  handleOnBlur,
+  handleOnFocus,
+  renderErrorMessage,
+}) {
   const {
     register,
     formState: { errors },
@@ -16,8 +22,16 @@ function BasicInfoForm({ handleOnBlur, handleOnFocus, renderErrorMessage }) {
   const formValues = watch();
 
   const { descricaoMotivo } = formValues;
-  const counting =
+
+  const counter =
     descricaoMotivo !== undefined ? `${descricaoMotivo.length}/255` : " ";
+
+  const isAtLimit = () => {
+    if (descricaoMotivo !== undefined) {
+      return Number(descricaoMotivo.length) >= 255;
+    }
+    return false;
+  };
 
   return (
     <FieldsetBasicStyled showSeparator>
@@ -94,7 +108,13 @@ function BasicInfoForm({ handleOnBlur, handleOnFocus, renderErrorMessage }) {
           autoComplete="off"
           aria-describedby="erro-descricaoMotivo"
         ></TextArea>
-        {counting}
+        {renderErrorMessage("descricaoMotivo")}
+        <CharacterCounter
+          isFocused={focusedField.descricaoMotivo}
+          hasError={isAtLimit()}
+        >
+          {counter}
+        </CharacterCounter>
       </InputSection>
     </FieldsetBasicStyled>
   );

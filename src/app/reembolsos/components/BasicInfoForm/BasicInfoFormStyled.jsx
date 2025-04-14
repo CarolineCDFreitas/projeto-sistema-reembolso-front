@@ -74,14 +74,23 @@ export const InputSection = styled.section`
 
 export const TextArea = styled(InputArea)`
   width: auto;
-  height: auto;
+  height: 3.8125rem;
   color: #23282f;
   font-family: inherit;
   resize: none;
   scrollbar-width: none;
   -ms-overflow-style: none;
-
+  position: relative;
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+export const CharacterCounter = styled.span`
+  color: ${({ hasError }) => (hasError ? "#A60B2F" : "#23282F")};
+  font-size: 0.875rem;
+  position: absolute;
+  top: 94%;
+  right: 0%;
+  visibility: ${({ isFocused }) => (isFocused ? "visible" : "hidden")};
 `;

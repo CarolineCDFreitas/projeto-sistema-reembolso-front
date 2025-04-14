@@ -98,7 +98,7 @@ export default function Solicitacao() {
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .max(255, "Não posso ultrapasar 255 caracteres"),
+      .max(255, "O limite de caracteres é 255."),
   };
 
   const methods = useForm({
@@ -123,13 +123,6 @@ export default function Solicitacao() {
 
   const [focusedField, setFocusedField] = useState({});
 
-  // const handleOnFocus = (name) => {
-  //   setFocusedField((prev) => ({ ...prev, [name]: true }));
-  // };
-  // const handleOnBlur = (name) => {
-  //   setFocusedField((prev) => ({ ...prev, [name]: false }));
-  // };
-
   const handleOnFocus = (e) => {
     const name = e.target.name;
     setFocusedField((prev) => ({ ...prev, [name]: true }));
@@ -142,7 +135,7 @@ export default function Solicitacao() {
 
   const renderErrorMessage = (field) => {
     if (errors[field] && focusedField[field]) {
-      if (field === "moeda") {
+      if (field === "moeda" || field === "prestacaoDeContas") {
         return (
           <ErrorMessage
             id={`erro-${field}`}
