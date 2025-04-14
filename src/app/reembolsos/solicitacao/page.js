@@ -1,9 +1,8 @@
 "use client";
 
-import { FormStyled } from "../components/Form/FormStyled";
+import { FormStyled, ErrorMessage } from "../components/Form/FormStyled";
 import BasicInfoForm from "../components/BasicInfoForm/BasicInfoForm";
 import SpecificInfoForm from "../components/SpecificInfoForm/SpecificInfoForm";
-import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
