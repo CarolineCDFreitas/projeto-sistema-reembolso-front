@@ -3,6 +3,7 @@
 import { FormStyled } from "../components/Form/FormStyled";
 import BasicInfoForm from "../components/BasicInfoForm/BasicInfoForm";
 import SpecificInfoForm from "../components/SpecificInfoForm/SpecificInfoForm";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
@@ -43,21 +44,36 @@ export default function Solicitacao() {
   };
 
   const identifiersSchema = {
+    nomeCompleto: z
+      .string()
+      .trim()
+      .min(10, "Digite seu nome completo (nome e sobrenome).")
+      .regex(/^[A-Za-z\s]+$/, "Não deve conter número."),
+    prestacaoDeContas: z
+      .string()
+      .trim()
+      .min(1, "Campo obrigatório")
+      .regex(/^\d{6}$/, "Insira 6 dígitos (000000)."),
+    empresa: z
+      .string()
+      .trim()
+      .min(1, "Campo obrigatório")
+      .regex(/^[A-Za-z]{3}\d{3}$/, "Use no formato AAA000"),
     ordemInterna: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{4}$/, "Insira quatro dígitos (0000)."),
+      .regex(/^\d{4}$/, "Insira 4 dígitos (0000)."),
     divisao: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{3}$/, "Insira três dígitos (000)."),
+      .regex(/^\d{3}$/, "Insira 3 dígitos (000)."),
     pep: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{3}$/, "Insira três dígitos (000)."),
+      .regex(/^\d{3}$/, "Insira 3 dígitos (000)."),
   };
 
   const schemas = {
@@ -76,7 +92,13 @@ export default function Solicitacao() {
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{1,5}$/, "Somente números (máx. 5 dígitos)"),
+      .regex(/^\d{1,5}$/, "Somente números (máx. 5 dígitos)")
+      .transform((val) => parseFloat(val)),
+    descricaoMotivo: z
+      .string()
+      .trim()
+      .min(1, "Campo obrigatório")
+      .max(255, "Não posso ultrapasar 255 caracteres"),
   };
 
   const methods = useForm({
@@ -101,13 +123,51 @@ export default function Solicitacao() {
 
   const [focusedField, setFocusedField] = useState({});
 
-  const handleOnFocus = (name) => {
+  // const handleOnFocus = (name) => {
+  //   setFocusedField((prev) => ({ ...prev, [name]: true }));
+  // };
+  // const handleOnBlur = (name) => {
+  //   setFocusedField((prev) => ({ ...prev, [name]: false }));
+  // };
+
+  const handleOnFocus = (e) => {
+    const name = e.target.name;
     setFocusedField((prev) => ({ ...prev, [name]: true }));
   };
-  const handleOnBlur = (name) => {
+
+  const handleOnBlur = (e) => {
+    const name = e.target.name;
     setFocusedField((prev) => ({ ...prev, [name]: false }));
   };
-  const focusHandlers = { focusedField, handleOnBlur, handleOnFocus };
+
+  const renderErrorMessage = (field) => {
+    if (errors[field] && focusedField[field]) {
+      if (field === "moeda") {
+        return (
+          <ErrorMessage
+            id={`erro-${field}`}
+            compactSpace
+            hasError={errors[field]}
+          >
+            {errors[field].message}
+          </ErrorMessage>
+        );
+      }
+
+      return (
+        <ErrorMessage id={`erro-${field}`} hasError={errors[field]}>
+          {errors[field].message}
+        </ErrorMessage>
+      );
+    }
+  };
+
+  const focusHandlers = {
+    focusedField,
+    handleOnBlur,
+    handleOnFocus,
+    renderErrorMessage,
+  };
 
   return (
     <>
@@ -117,7 +177,7 @@ export default function Solicitacao() {
         })}
       >
         <FormProvider {...methods}>
-          <BasicInfoForm />
+          <BasicInfoForm {...focusHandlers} />
           <SpecificInfoForm {...focusHandlers} />
         </FormProvider>
       </FormStyled>

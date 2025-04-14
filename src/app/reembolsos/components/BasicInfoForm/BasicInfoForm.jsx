@@ -4,8 +4,21 @@ import {
   InputSection,
 } from "../BasicInfoForm/BasicInfoFormStyled";
 import { InputArea } from "@/components/Input/InputStyle";
+import { useFormContext } from "react-hook-form";
 
-function BasicInfoForm() {
+function BasicInfoForm({ handleOnBlur, handleOnFocus, renderErrorMessage }) {
+  const {
+    register,
+    formState: { errors },
+    watch,
+  } = useFormContext();
+
+  const formValues = watch();
+
+  const { descricaoMotivo } = formValues;
+  const counting =
+    descricaoMotivo !== undefined ? `${descricaoMotivo.length}/255` : " ";
+
   return (
     <FieldsetBasicStyled>
       <legend>Informações básicas</legend>
@@ -18,20 +31,50 @@ function BasicInfoForm() {
             type="text"
             name="nomeCompleto"
             id="nomeCompleto"
+            placeholder="Digite seu nome completo"
+            {...register("nomeCompleto")}
+            hasError={errors.nomeCompleto}
+            autoComplete="off"
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
+            aria-describedby="erro-nomeCompleto"
+            autoCapitalize="words"
           />
+          {renderErrorMessage("nomeCompleto")}
         </InputSection>
         <InputSection>
           <label htmlFor="empresa">Empresa</label>
-          <InputArea width="medium" type="text" name="empresa" id="empresa" />
+          <InputArea
+            width="medium"
+            type="text"
+            name="empresa"
+            id="empresa"
+            placeholder="AAA000"
+            {...register("empresa")}
+            hasError={errors.empresa}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
+            autoComplete="off"
+            aria-describedby="erro-empresa"
+          />
+          {renderErrorMessage("empresa")}
         </InputSection>
-        <InputSection gridArea="prestacaoDeContas">
+        <InputSection>
           <label htmlFor="prestacaoDeContas">Nº Prest. Contas</label>
           <InputArea
             width="medium"
             type="text"
             name="prestacaoDeContas"
             id="prestacaoDeContas"
+            placeholder="000000"
+            {...register("prestacaoDeContas")}
+            hasError={errors.prestacaoDeContas}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
+            autoComplete="off"
+            aria-describedby="erro-prestacaoDeContas"
           />
+          {renderErrorMessage("prestacaoDeContas")}
         </InputSection>
       </div>
 
@@ -43,7 +86,15 @@ function BasicInfoForm() {
           id="descricaoMotivo"
           cols={70}
           rows={2}
+          placeholder="Escreva aqui o motivo do reembolso"
+          {...register("descricaoMotivo")}
+          hasError={errors.descricaoMotivo}
+          onFocus={handleOnFocus}
+          onBlur={handleOnBlur}
+          autoComplete="off"
+          aria-describedby="erro-descricaoMotivo"
         ></TextArea>
+        {counting}
       </InputSection>
     </FieldsetBasicStyled>
   );

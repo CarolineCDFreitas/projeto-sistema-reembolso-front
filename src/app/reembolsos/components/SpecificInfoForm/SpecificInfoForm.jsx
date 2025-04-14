@@ -8,37 +8,15 @@ import {
   ExpenseSelect,
   SelectContainer,
 } from "../SpecificInfoForm/SpecificInfoFormStyled";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { ButtonField, InputArea } from "@/components/Input/InputStyle";
 import { useFormContext } from "react-hook-form";
 
-function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
+function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
   const {
     register,
     formState: { errors },
     reset,
   } = useFormContext();
-
-  const renderErrorMessage = (field) => {
-    if (errors[field] && focusedField[field]) {
-      if (field === "moeda") {
-        return (
-          <ErrorMessage id={`erro-${field}`} compactSpace>
-            {errors[field].message}
-          </ErrorMessage>
-        );
-      }
-
-      return (
-        <ErrorMessage id={`erro-${field}`}>
-          {errors[field].message}
-        </ErrorMessage>
-      );
-    }
-  };
-
-  const handleFocus = (e) => handleOnFocus(e.target.name);
-  const handleBlur = (e) => handleOnBlur(e.target.name);
 
   return (
     <FieldsetSpecificStyled>
@@ -54,8 +32,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("data")}
             hasError={errors.data}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-data"
           />
           {renderErrorMessage("data")}
@@ -71,8 +49,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
               {...register("tipoDeDespesa")}
               hasError={errors.tipoDeDespesa}
               autoComplete="off"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={handleOnFocus}
+              onBlur={handleOnBlur}
               aria-describedby="erro-tipoDeDespesa"
             >
               <option value="selecionar" disabled>
@@ -95,18 +73,17 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
         </InputSection>
         <InputSection>
           <label htmlFor="centro">Centro de custo</label>
-          <SelectContainer hasError={errors.centro}>
+          <SelectContainer hasError={errors.centro} centro>
             <ExpenseSelect
               as={"select"}
               name="centro"
               id="centro"
               defaultValue="selecionar"
-              centro
               {...register("centro")}
               hasError={errors.centro}
               autoComplete="off"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={handleOnFocus}
+              onBlur={handleOnBlur}
               aria-describedby="erro-centro"
             >
               <option value="selecionar" disabled>
@@ -137,8 +114,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
               {...register("moeda")}
               hasError={errors.moeda}
               autoComplete="off"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={handleOnFocus}
+              onBlur={handleOnBlur}
               aria-describedby="erro-moeda"
             >
               <option value="selecionar" disabled>
@@ -167,8 +144,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("ordemInterna")}
             hasError={errors.ordemInterna}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-ordemInterna"
           />
           {renderErrorMessage("ordemInterna")}
@@ -184,8 +161,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("divisao")}
             hasError={errors.divisao}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-divisao"
           />
           {renderErrorMessage("divisao")}
@@ -201,8 +178,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("pep")}
             hasError={errors.pep}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-pep"
           />
           {renderErrorMessage("pep")}
@@ -218,8 +195,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("distKm")}
             hasError={errors.distKm}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-distKm"
           />
           {renderErrorMessage("distKm")}
@@ -235,8 +212,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("valorKm")}
             hasError={errors.valorKm}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-valorKm"
           />
           {renderErrorMessage("valorKm")}
@@ -252,8 +229,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("valorFaturado")}
             hasError={errors.valorFaturado}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-valorFaturado"
           />
           {renderErrorMessage("valorFaturado")}
@@ -269,8 +246,8 @@ function SpecificInfoForm({ focusedField, handleOnFocus, handleOnBlur }) {
             {...register("despesaTotal")}
             hasError={errors.despesaTotal}
             autoComplete="off"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
             aria-describedby="erro-despesaTotal"
           />
           {renderErrorMessage("despesaTotal")}
