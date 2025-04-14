@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { InputArea } from "@/components/Input/InputStyle";
+import { css } from "@emotion/react";
 
 export const FieldsetBasicStyled = styled.fieldset`
   border: none;
@@ -36,17 +37,21 @@ export const FieldsetBasicStyled = styled.fieldset`
   }
 
   @media (min-width: 1024px) {
-    position: relative;
+    ${({ showSeparator }) =>
+      showSeparator &&
+      css`
+        position: relative;
 
-    &::after {
-      content: " ";
-      width: 0.0625rem;
-      height: 11.375rem;
-      background-color: #cbd4e1;
-      position: absolute;
-      top: 3%;
-      left: -2%;
-    }
+        &::after {
+          content: " ";
+          width: 0.0625rem;
+          height: 11.375rem;
+          background-color: #cbd4e1;
+          position: absolute;
+          top: 3%;
+          left: 101.5%;
+        }
+      `}
   }
 `;
 

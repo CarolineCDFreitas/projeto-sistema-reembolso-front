@@ -20,7 +20,7 @@ function BasicInfoForm({ handleOnBlur, handleOnFocus, renderErrorMessage }) {
     descricaoMotivo !== undefined ? `${descricaoMotivo.length}/255` : " ";
 
   return (
-    <FieldsetBasicStyled>
+    <FieldsetBasicStyled showSeparator>
       <legend>Informações básicas</legend>
 
       <div>
