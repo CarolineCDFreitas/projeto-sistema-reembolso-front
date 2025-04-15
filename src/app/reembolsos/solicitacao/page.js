@@ -6,7 +6,7 @@ import SpecificInfoForm from "../components/SpecificInfoForm/SpecificInfoForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Solicitacao() {
   const selectSchema = {
@@ -46,7 +46,7 @@ export default function Solicitacao() {
     nomeCompleto: z
       .string()
       .trim()
-      .min(10, "Digite seu nome completo (nome e sobrenome).")
+      .min(8, "Digite seu nome completo (nome e sobrenome).")
       .regex(/^[A-Za-z\s]+$/, "Não deve conter número."),
     prestacaoDeContas: z
       .string()
@@ -79,14 +79,12 @@ export default function Solicitacao() {
     ...selectSchema,
     ...identifiersSchema,
     ...monetarySchema,
-    data: z.string().refine((val) => {
-      const [ano, mes, dia] = val.split("-");
-      const data = new Date(`${mes}-${dia}-${ano}`);
-      const hoje = new Date();
-
-      return data <= hoje;
-    }, "A data não pode estar no futuro."),
-
+    data: z
+      .string()
+      .refine(
+        (val) => new Date(val) <= new Date(),
+        "A data não pode ser no futuro"
+      ),
     distKm: z
       .string()
       .trim()
@@ -107,18 +105,9 @@ export default function Solicitacao() {
 
   const {
     handleSubmit,
-    formState: { errors },
-    watch,
-    clearErrors,
+    formState: { errors, isSubmitSuccessful },
+    reset,
   } = methods;
-
-  const formValues = watch();
-
-  Object.keys(formValues).forEach((key) => {
-    if (!formValues[key] && errors[key]) {
-      clearErrors(key);
-    }
-  });
 
   const [focusedField, setFocusedField] = useState({});
 
@@ -161,13 +150,26 @@ export default function Solicitacao() {
     renderErrorMessage,
   };
 
+  const temporaryStorage = () => {
+    const newData = getValues();
+    const existingData = JSON.parse(
+      localStorage.getItem("DadosTemporarios") || "[]"
+    );
+
+    existingData.push(newData);
+
+    localStorage.setItem("DadosTemporarios", JSON.stringify(existingData));
+  };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
   return (
     <>
-      <FormStyled
-        onSubmit={handleSubmit(() => {
-          console.log("errors", errors);
-        })}
-      >
+      <FormStyled onSubmit={handleSubmit(temporaryStorage)} autoComplete="off">
         <FormProvider {...methods}>
           <BasicInfoForm {...focusHandlers} />
           <SpecificInfoForm {...focusHandlers} />
