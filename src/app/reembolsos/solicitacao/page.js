@@ -106,7 +106,7 @@ export default function Solicitacao() {
   const {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
-    reset,
+    reset
   } = methods;
 
   const [focusedField, setFocusedField] = useState({});
