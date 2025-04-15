@@ -86,12 +86,6 @@ export default function Solicitacao() {
         (val) => new Date(val) <= new Date(),
         "A data não pode ser no futuro"
       ),
-    data: z
-      .string()
-      .refine(
-        (val) => new Date(val) <= new Date(),
-        "A data não pode ser no futuro"
-      ),
     distKm: z
       .string()
       .trim()
@@ -174,15 +168,14 @@ export default function Solicitacao() {
     }
   }, [isSubmitSuccessful, reset]);
 
-
   return (
     <>
       <FormStyled onSubmit={handleSubmit(temporaryStorage)}>
         <FormProvider {...methods}>
-          <BasicInfoForm  {...focusHandlers} />
+          <BasicInfoForm {...focusHandlers} />
           <SpecificInfoForm {...focusHandlers} />
         </FormProvider>
-    </FormStyled>
+      </FormStyled>
     </>
   );
 }
