@@ -47,6 +47,7 @@ export default function Solicitacao() {
       .string()
       .trim()
       .min(8, "Digite seu nome completo (nome e sobrenome).")
+      .min(8, "Digite seu nome completo (nome e sobrenome).")
       .regex(/^[A-Za-z\s]+$/, "Não deve conter número."),
     prestacaoDeContas: z
       .string()
@@ -79,6 +80,12 @@ export default function Solicitacao() {
     ...selectSchema,
     ...identifiersSchema,
     ...monetarySchema,
+    data: z
+      .string()
+      .refine(
+        (val) => new Date(val) <= new Date(),
+        "A data não pode ser no futuro"
+      ),
     data: z
       .string()
       .refine(
@@ -167,14 +174,15 @@ export default function Solicitacao() {
     }
   }, [isSubmitSuccessful, reset]);
 
+
   return (
     <>
-      <FormStyled onSubmit={handleSubmit(temporaryStorage)} autoComplete="off">
+      <FormStyled onSubmit={handleSubmit(temporaryStorage)}>
         <FormProvider {...methods}>
-          <BasicInfoForm {...focusHandlers} />
+          <BasicInfoForm  {...focusHandlers} />
           <SpecificInfoForm {...focusHandlers} />
         </FormProvider>
-      </FormStyled>
+    </FormStyled>
     </>
   );
 }
