@@ -106,17 +106,7 @@ export default function Solicitacao() {
   const {
     handleSubmit,
     formState: { errors },
-    watch,
-    clearErrors,
   } = methods;
-
-  const formValues = watch();
-
-  Object.keys(formValues).forEach((key) => {
-    if (!formValues[key] && errors[key]) {
-      clearErrors(key);
-    }
-  });
 
   const [focusedField, setFocusedField] = useState({});
 
