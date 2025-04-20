@@ -46,8 +46,7 @@ export default function Solicitacao() {
     nomeCompleto: z
       .string()
       .trim()
-      .min(8, "Digite seu nome completo (nome e sobrenome).")
-      .min(8, "Digite seu nome completo (nome e sobrenome).")
+      .min(8, "Digite nome completo (nome e sobrenome).")
       .regex(/^[A-Za-z\s]+$/, "Não deve conter número."),
     prestacaoDeContas: z
       .string()
@@ -106,20 +105,39 @@ export default function Solicitacao() {
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful, dirtyFields, isSubmitted },
     reset,
+    getValues,
+    watch,
+    clearErrors,
   } = methods;
 
   const [focusedField, setFocusedField] = useState({});
 
+  const updateFocusState = (name, isFocused) => {
+    setFocusedField((prev) => ({ ...prev, [name]: isFocused }));
+  };
+
+  const clearErrorIfNeed = (name) => {
+    const realTimeValues = watch();
+    const fieldValue = realTimeValues[name];
+    const fieldErrors = errors[name];
+
+    if (!isSubmitted && dirtyFields && !fieldValue && fieldErrors) {
+      clearErrors(name);
+    }
+  };
+
   const handleOnFocus = (e) => {
     const name = e.target.name;
-    setFocusedField((prev) => ({ ...prev, [name]: true }));
+    updateFocusState(name, true);
   };
 
   const handleOnBlur = (e) => {
     const name = e.target.name;
-    setFocusedField((prev) => ({ ...prev, [name]: false }));
+
+    updateFocusState(name, false);
+    clearErrorIfNeed(name);
   };
 
   const renderErrorMessage = (field) => {
@@ -166,16 +184,16 @@ export default function Solicitacao() {
     if (isSubmitSuccessful) {
       reset();
     }
-  }, [isSubmitSuccessful, reset]);
+  }, [isSubmitSuccessful]);
 
   return (
     <>
-      <FormStyled onSubmit={handleSubmit(temporaryStorage)}>
-        <FormProvider {...methods}>
+      <FormProvider {...methods}>
+        <FormStyled onSubmit={handleSubmit(temporaryStorage)}>
           <BasicInfoForm {...focusHandlers} />
           <SpecificInfoForm {...focusHandlers} />
-        </FormProvider>
-      </FormStyled>
+        </FormStyled>
+      </FormProvider>
     </>
   );
 }
