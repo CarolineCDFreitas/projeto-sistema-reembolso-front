@@ -56,15 +56,15 @@ function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
               <option value="selecionar" disabled>
                 Selecionar
               </option>
-              <option value="alimentação">Alimentação</option>
-              <option value="combustível">Combustível</option>
-              <option value="condução">Condução</option>
-              <option value="estacionameto">Estacionamento</option>
-              <option value="viagem administrativa">
+              <option value="alimentacao">Alimentação</option>
+              <option value="combustivel">Combustível</option>
+              <option value="conducao">Condução</option>
+              <option value="estacionamento">Estacionamento</option>
+              <option value="viagemAdministrativa">
                 Viagem administrativa
               </option>
-              <option value="viagem operacional">Viagem operacional</option>
-              <option value="eventos de representação">
+              <option value="viagemOperacional">Viagem operacional</option>
+              <option value="eventosDeRepresentacao">
                 Eventos de representação
               </option>
             </ExpenseSelect>
@@ -89,13 +89,13 @@ function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
               <option value="selecionar" disabled>
                 Selecionar
               </option>
-              <option value="controles internos">
+              <option value="1100109002">
                 1100109002 - FIN CONTROLES INTERNOS MTZ
               </option>
-              <option value="vice-presidência finanças">
+              <option value="1100110002">
                 1100110002 - FIN VICE-PRESIDENCIA FINANÇAS MTZ
               </option>
-              <option value="contabilidade">
+              <option value="1100110102">
                 1100110102 - FIN CONTABILIDADE MTZ
               </option>
             </ExpenseSelect>
