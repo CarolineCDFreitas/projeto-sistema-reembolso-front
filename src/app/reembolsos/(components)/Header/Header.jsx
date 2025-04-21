@@ -1,5 +1,5 @@
 "use client";
-import Button from "../../../../components/Button/Button";
+import Button from "@/components/Button/Button";
 import {
   HeaderStyled,
   Menus,
@@ -15,7 +15,7 @@ import {
   MdContentPaste,
   MdHistory,
 } from "react-icons/md";
-import Profile from "../../../../assets/imageProfile.png";
+import Profile from "@/assets/imageProfile.png";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

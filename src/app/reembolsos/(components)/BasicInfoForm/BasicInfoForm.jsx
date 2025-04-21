@@ -4,7 +4,7 @@ import {
   TextArea,
   InputSection,
   CharacterCounter,
-} from "../BasicInfoForm/BasicInfoFormStyled";
+} from "./BasicInfoFormStyled";
 import { InputArea } from "@/components/Input/InputStyle";
 import { useFormContext } from "react-hook-form";
 

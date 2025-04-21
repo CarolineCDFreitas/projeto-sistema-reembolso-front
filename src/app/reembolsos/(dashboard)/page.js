@@ -4,7 +4,7 @@ import {
   DashboardStats,
   DashbardWrapper,
   TextContainer,
-} from "../components/Dashboard";
+} from "../(components)/Dashboard";
 
 export default function Reembolsos() {
   return (

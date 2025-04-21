@@ -8,7 +8,7 @@ import {
   DataField,
   ExpenseSelect,
   SelectContainer,
-} from "../SpecificInfoForm/SpecificInfoFormStyled";
+} from "./SpecificInfoFormStyled";
 import { ButtonField, InputArea } from "@/components/Input/InputStyle";
 import { useFormContext } from "react-hook-form";
 

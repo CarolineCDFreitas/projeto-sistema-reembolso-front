@@ -4,7 +4,7 @@ import {
   StatusContainer,
   StatusWrapper,
   SystemUpdateContainer,
-} from "../DashboardStats/DashboardStatsStyled";
+} from "./DashboardStatsStyled";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import {
   MdOutlineWatchLater,
