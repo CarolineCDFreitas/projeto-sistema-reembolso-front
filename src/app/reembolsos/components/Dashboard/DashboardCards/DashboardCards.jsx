@@ -1,3 +1,4 @@
+"use client";
 import Cards from "../../Cards/Cards";
 import { MdHistory, MdAssignmentAdd } from "react-icons/md";
 import { PiListBullets } from "react-icons/pi";

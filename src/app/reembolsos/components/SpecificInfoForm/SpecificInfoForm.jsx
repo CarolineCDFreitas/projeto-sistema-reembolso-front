@@ -1,3 +1,4 @@
+"use client";
 import Button from "@/components/Button/Button";
 import { MdAdd } from "react-icons/md";
 import { RiDeleteBack2Line } from "react-icons/ri";
