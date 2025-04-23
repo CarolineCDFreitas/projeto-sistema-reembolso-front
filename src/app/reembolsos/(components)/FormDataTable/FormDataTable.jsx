@@ -1,5 +1,10 @@
 "use client";
-import { TableStyled, Teste } from "./FormDataTableStyled";
+import {
+  TableStyled,
+  Teste,
+  NameCellContent,
+  CompanyCellContent,
+} from "./FormDataTableStyled";
 import { useQuery } from "@tanstack/react-query";
 
 function FormDataTable() {
@@ -72,10 +77,12 @@ function FormDataTable() {
                   🗑️
                 </th>
                 <td>
-                  <span title={item.nomeCompleto}>{item.nomeCompleto}</span>
+                  <NameCellContent title={item.nomeCompleto}>
+                    {item.nomeCompleto}
+                  </NameCellContent>
                 </td>
                 <td>
-                  <span>{item.empresa}</span>
+                  <CompanyCellContent>{item.empresa}</CompanyCellContent>
                 </td>
                 <td>
                   <span>{item.prestacaoDeContas}</span>

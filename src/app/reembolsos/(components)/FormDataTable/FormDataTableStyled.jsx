@@ -54,11 +54,21 @@ export const Teste = styled.div`
   border: 0.05rem solid #cbd4e1;
 `;
 
-export const BasicCell = styled.span`
+export const BasicCellContent = styled.span`
   display: block;
   max-width: 130px;
   white-space: nowrap;
   word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+export const NameCellContent = styled(BasicCellContent)`
+  &::first-letter {
+    text-transform: uppercase;
+  }
+`;
+
+export const CompanyCellContent = styled(BasicCellContent)`
+  text-transform: uppercase;
 `;
