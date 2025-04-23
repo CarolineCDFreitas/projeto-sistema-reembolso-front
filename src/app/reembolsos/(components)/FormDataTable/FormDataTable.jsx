@@ -1,37 +1,44 @@
 "use client";
 import { TableStyled, Teste } from "./FormDataTableStyled";
+import { useQuery } from "@tanstack/react-query";
 
 function FormDataTable() {
-  const localStorageData =
+  const fetchDataFromServer = () =>
     JSON.parse(localStorage.getItem("DadosTemporarios")) || [];
 
-  const formatedData = localStorageData.map((item) => {
-    const [year, month, day] = item.data.split("-");
-    const formatedDate = `${day}/${month}/${year}`;
-
-    const costCenterCode = {
-      1100109002: "FIN CONTROLES INTERNOS MTZ",
-      1100110002: "FIN VICE-PRESIDENCIA FINANÇAS MTZ",
-      1100110102: "FIN CONTABILIDADE MTZ",
-    };
-
-    const expenseTypeFormated = {
-      alimentacao: "Alimentação",
-      combustivel: "Combustível",
-      conducao: "Condução",
-      estacionamento: "Estacionamento",
-      viagemAdministrativa: "Viagem administrativa",
-      viagemOperacional: "Viagem operacional",
-      eventosDeRepresentacao: "Eventos de representação",
-    };
-
-    return {
-      ...item,
-      formatedDate,
-      codeDescription: costCenterCode[item.centro] || "",
-      expenseType: expenseTypeFormated[item.tipoDeDespesa] || "",
-    };
+  const { data } = useQuery({
+    queryKey: ["dataTable"],
+    queryFn: fetchDataFromServer,
   });
+
+  const formatedData =
+    data?.map((item) => {
+      const [year, month, day] = item.data.split("-");
+      const formatedDate = `${day}/${month}/${year}`;
+
+      const costCenterCode = {
+        1100109002: "FIN CONTROLES INTERNOS MTZ",
+        1100110002: "FIN VICE-PRESIDENCIA FINANÇAS MTZ",
+        1100110102: "FIN CONTABILIDADE MTZ",
+      };
+
+      const expenseTypeFormated = {
+        alimentacao: "Alimentação",
+        combustivel: "Combustível",
+        conducao: "Condução",
+        estacionamento: "Estacionamento",
+        viagemAdministrativa: "Viagem administrativa",
+        viagemOperacional: "Viagem operacional",
+        eventosDeRepresentacao: "Eventos de representação",
+      };
+
+      return {
+        ...item,
+        formatedDate,
+        codeDescription: costCenterCode[item.centro] || "",
+        expenseType: expenseTypeFormated[item.tipoDeDespesa] || "",
+      };
+    }) || [];
 
   return (
     <Teste>

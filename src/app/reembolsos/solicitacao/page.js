@@ -1,12 +1,13 @@
 "use client";
-
-import { FormStyled, ErrorMessage } from "../components/Form/FormStyled";
-import BasicInfoForm from "../components/BasicInfoForm/BasicInfoForm";
-import SpecificInfoForm from "../components/SpecificInfoForm/SpecificInfoForm";
+import { FormStyled, ErrorMessage } from "../(components)/Form/FormStyled";
+import BasicInfoForm from "../(components)/BasicInfoForm/BasicInfoForm";
+import SpecificInfoForm from "../(components)/SpecificInfoForm/SpecificInfoForm";
+import FormDataTable from "../(components)/FormDataTable/FormDataTable";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function Solicitacao() {
   const selectSchema = {
@@ -169,8 +170,7 @@ export default function Solicitacao() {
     renderErrorMessage,
   };
 
-  const temporaryStorage = () => {
-    const newData = getValues();
+  const temporaryStorage = (newData) => {
     const existingData = JSON.parse(
       localStorage.getItem("DadosTemporarios") || "[]"
     );
@@ -180,19 +180,28 @@ export default function Solicitacao() {
     localStorage.setItem("DadosTemporarios", JSON.stringify(existingData));
   };
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: temporaryStorage,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["dataTable"]);
       reset();
-    }
-  }, [isSubmitSuccessful]);
+    },
+  });
+
+  const onSubmit = () => {
+    const newData = getValues();
+    mutation.mutate(newData);
+  };
 
   return (
     <>
       <FormProvider {...methods}>
-        <FormStyled onSubmit={handleSubmit(temporaryStorage)}>
+        <FormStyled onSubmit={handleSubmit(onSubmit)}>
           <BasicInfoForm {...focusHandlers} />
           <SpecificInfoForm {...focusHandlers} />
         </FormStyled>
+        <FormDataTable />
       </FormProvider>
     </>
   );
