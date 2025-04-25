@@ -1,11 +1,20 @@
 "use client";
+import { MdMoreVert, MdDescription } from "react-icons/md";
+import { RiDeleteBin6Line, RiEditLine } from "react-icons/ri";
 import {
   TableStyled,
   Teste,
   NameCellContent,
   CompanyCellContent,
+  MoreOptionsCell,
+  CheckboxInputArea,
+  IconContainer,
+  BasicCellContent,
+  MenuList,
+  DropdownMenuContainer,
 } from "./FormDataTableStyled";
 import { useQuery } from "@tanstack/react-query";
+import { useState, useRef } from "react";
 
 function FormDataTable() {
   const fetchDataFromServer = () =>
@@ -45,13 +54,37 @@ function FormDataTable() {
       };
     }) || [];
 
+  const [activeMenus, setActiveMenus] = useState(null);
+
+  const toggleMenus = (menuId) => {
+    if (activeMenus === null || activeMenus !== menuId) {
+      setActiveMenus(menuId);
+    }
+
+    if (activeMenus === menuId) {
+      setActiveMenus(null);
+    }
+  };
+
+  const handleOnBlurMenus = () => {
+    setActiveMenus(null);
+  };
+
+  const settingAria = () => {
+    if (activeMenus === null) {
+      return "false";
+    } else {
+      return "true";
+    }
+  };
+
   return (
     <Teste>
       <TableStyled>
         <caption>Dados dos formulários enviados</caption>
         <thead>
           <tr>
-            <th>&nbsp;</th>
+            <th colSpan={2}>&nbsp;</th>
             <th scope="col">Colaborador(a)</th>
             <th scope="col">Empresa</th>
             <th scope="col">Nº Prest.</th>
@@ -73,9 +106,45 @@ function FormDataTable() {
           {formatedData.map((item, index) => {
             return (
               <tr key={index}>
-                <th scope="row" id={`form${index}`}>
-                  🗑️
+                <th>
+                  <CheckboxInputArea
+                    type="checkbox"
+                    name="selected"
+                    id={index}
+                    title="Selecionar para enviar para análise"
+                  />
                 </th>
+                <MoreOptionsCell scope="row" id={`form${index}`}>
+                  <button
+                    aria-label="Mais opções"
+                    aria-expanded={settingAria()}
+                    aria-haspopup="true"
+                    aria-controls={`dropdownMenu${index}`}
+                    title="Mais opções"
+                    onClick={() => toggleMenus(index)}
+                    onBlur={handleOnBlurMenus}
+                  >
+                    <MdMoreVert />
+                  </button>
+                  {activeMenus === index && (
+                    <DropdownMenuContainer role="menu">
+                      <MenuList id={`dropdownMenu${index}`}>
+                        <li role="menuitem">
+                          <a href="#">
+                            <RiEditLine title="Editar" />
+                            <span title="Editar">Editar</span>
+                          </a>
+                        </li>
+                        <li role="menuitem">
+                          <button>
+                            <RiDeleteBin6Line title="Excluir" />
+                            <span title="Excluir">Excluir</span>
+                          </button>
+                        </li>
+                      </MenuList>
+                    </DropdownMenuContainer>
+                  )}
+                </MoreOptionsCell>
                 <td>
                   <NameCellContent title={item.nomeCompleto}>
                     {item.nomeCompleto}
@@ -85,45 +154,49 @@ function FormDataTable() {
                   <CompanyCellContent>{item.empresa}</CompanyCellContent>
                 </td>
                 <td>
-                  <span>{item.prestacaoDeContas}</span>
+                  <BasicCellContent>{item.prestacaoDeContas}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.formatedDate}</span>
+                  <BasicCellContent>{item.formatedDate}</BasicCellContent>
                 </td>
                 <td>
-                  <span>📋</span>
+                  <IconContainer>
+                    <MdDescription />
+                  </IconContainer>
                 </td>
                 <td>
-                  <span title={item.expenseType}>{item.expenseType}</span>
+                  <BasicCellContent title={item.expenseType}>
+                    {item.expenseType}
+                  </BasicCellContent>
                 </td>
                 <td>
-                  <span title={item.codeDescription}>
+                  <BasicCellContent title={item.codeDescription}>
                     {item.codeDescription}
-                  </span>
+                  </BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.ordemInterna}</span>
+                  <BasicCellContent>{item.ordemInterna}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.divisao}</span>
+                  <BasicCellContent>{item.divisao}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.pep}</span>
+                  <BasicCellContent>{item.pep}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.moeda}</span>
+                  <BasicCellContent>{item.moeda}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.distKm}</span>
+                  <BasicCellContent>{item.distKm}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.valorKm}</span>
+                  <BasicCellContent>{item.valorKm}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.valorFaturado}</span>
+                  <BasicCellContent>{item.valorFaturado}</BasicCellContent>
                 </td>
                 <td>
-                  <span>{item.despesaTotal}</span>
+                  <BasicCellContent>{item.despesaTotal}</BasicCellContent>
                 </td>
               </tr>
             );
