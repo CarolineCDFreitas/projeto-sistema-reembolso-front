@@ -13,12 +13,12 @@ import {
   MenuList,
   DropdownMenuContainer,
 } from "./FormDataTableStyled";
-import { useQuery } from "@tanstack/react-query";
-import { useState, useRef } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 function FormDataTable() {
   const fetchDataFromServer = () =>
-    JSON.parse(localStorage.getItem("DadosTemporarios")) || [];
+    JSON.parse(localStorage.getItem("DadosTemporarios") || "[]");
 
   const { data } = useQuery({
     queryKey: ["dataTable"],
@@ -66,16 +66,38 @@ function FormDataTable() {
     }
   };
 
-  const handleOnBlurMenus = () => {
-    setActiveMenus(null);
-  };
-
-  const settingAria = () => {
+  const settingARIA = () => {
     if (activeMenus === null) {
       return "false";
     } else {
       return "true";
     }
+  };
+
+  const deleteForm = (id) => {
+    const existingData = JSON.parse(
+      localStorage.getItem("DadosTemporarios") || "[]"
+    );
+
+    const updatedData = existingData.filter((item) => item.id !== id);
+
+    localStorage.setItem("DadosTemporarios", JSON.stringify(updatedData));
+
+    console.log("fui excluído");
+
+    setActiveMenus(null);
+  };
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: deleteForm,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["dataTable"]);
+    },
+  });
+
+  const deleting = (id) => {
+    mutation.mutate(id);
   };
 
   return (
@@ -103,32 +125,31 @@ function FormDataTable() {
           </tr>
         </thead>
         <tbody>
-          {formatedData.map((item, index) => {
+          {formatedData.map((item) => {
             return (
-              <tr key={index}>
+              <tr key={item.id}>
                 <th>
                   <CheckboxInputArea
                     type="checkbox"
                     name="selected"
-                    id={index}
+                    id={item.id}
                     title="Selecionar para enviar para análise"
                   />
                 </th>
-                <MoreOptionsCell scope="row" id={`form${index}`}>
+                <MoreOptionsCell scope="row" id={`form${item.id}`}>
                   <button
                     aria-label="Mais opções"
-                    aria-expanded={settingAria()}
+                    aria-expanded={settingARIA()}
                     aria-haspopup="true"
-                    aria-controls={`dropdownMenu${index}`}
+                    aria-controls={`dropdownMenu${item.id}`}
                     title="Mais opções"
-                    onClick={() => toggleMenus(index)}
-                    onBlur={handleOnBlurMenus}
+                    onClick={(e) => toggleMenus(item.id, e)}
                   >
                     <MdMoreVert />
                   </button>
-                  {activeMenus === index && (
+                  {activeMenus === item.id && (
                     <DropdownMenuContainer role="menu">
-                      <MenuList id={`dropdownMenu${index}`}>
+                      <MenuList id={`dropdownMenu${item.id}`}>
                         <li role="menuitem">
                           <a href="#">
                             <RiEditLine title="Editar" />
@@ -136,7 +157,7 @@ function FormDataTable() {
                           </a>
                         </li>
                         <li role="menuitem">
-                          <button>
+                          <button onClick={() => deleting(item.id)}>
                             <RiDeleteBin6Line title="Excluir" />
                             <span title="Excluir">Excluir</span>
                           </button>
