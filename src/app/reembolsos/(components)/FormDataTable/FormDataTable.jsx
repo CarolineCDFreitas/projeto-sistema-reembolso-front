@@ -14,7 +14,7 @@ import {
   DropdownMenuContainer,
 } from "./FormDataTableStyled";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function FormDataTable() {
   const fetchDataFromServer = () =>
@@ -56,7 +56,8 @@ function FormDataTable() {
 
   const [activeMenus, setActiveMenus] = useState(null);
 
-  const toggleMenus = (menuId) => {
+  const toggleMenus = (menuId, e) => {
+    e.stopPropagation();
     if (activeMenus === null || activeMenus !== menuId) {
       setActiveMenus(menuId);
     }
@@ -65,6 +66,27 @@ function FormDataTable() {
       setActiveMenus(null);
     }
   };
+
+  const menuRef = useRef();
+  const buttonRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutsideOfField = (event) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setActiveMenus(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutsideOfField);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutsideOfField);
+    };
+  }, [activeMenus]);
 
   const settingARIA = () => {
     if (activeMenus === null) {
@@ -144,22 +166,26 @@ function FormDataTable() {
                     aria-controls={`dropdownMenu${item.id}`}
                     title="Mais opções"
                     onClick={(e) => toggleMenus(item.id, e)}
+                    ref={buttonRef}
                   >
                     <MdMoreVert />
                   </button>
                   {activeMenus === item.id && (
-                    <DropdownMenuContainer role="menu">
+                    <DropdownMenuContainer role="menu" ref={menuRef}>
                       <MenuList id={`dropdownMenu${item.id}`}>
                         <li role="menuitem">
-                          <a href="#">
-                            <RiEditLine title="Editar" />
-                            <span title="Editar">Editar</span>
+                          <a href="#" title="Editar">
+                            <RiEditLine />
+                            <span>Editar</span>
                           </a>
                         </li>
                         <li role="menuitem">
-                          <button onClick={() => deleting(item.id)}>
-                            <RiDeleteBin6Line title="Excluir" />
-                            <span title="Excluir">Excluir</span>
+                          <button
+                            onClick={() => deleting(item.id)}
+                            title="Excluir"
+                          >
+                            <RiDeleteBin6Line />
+                            <span>Excluir</span>
                           </button>
                         </li>
                       </MenuList>
