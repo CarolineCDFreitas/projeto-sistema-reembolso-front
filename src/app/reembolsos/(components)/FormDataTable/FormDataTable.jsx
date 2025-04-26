@@ -173,16 +173,17 @@ function FormDataTable() {
                   {activeMenus === item.id && (
                     <DropdownMenuContainer role="menu" ref={menuRef}>
                       <MenuList id={`dropdownMenu${item.id}`}>
-                        <li role="menuitem">
-                          <a href="#" title="Editar">
+                        <li role="none">
+                          <a href="#" role="menuitem" title="Editar">
                             <RiEditLine />
                             <span>Editar</span>
                           </a>
                         </li>
-                        <li role="menuitem">
+                        <li role="none">
                           <button
                             onClick={() => deleting(item.id)}
                             title="Excluir"
+                            role="menuitem"
                           >
                             <RiDeleteBin6Line />
                             <span>Excluir</span>
