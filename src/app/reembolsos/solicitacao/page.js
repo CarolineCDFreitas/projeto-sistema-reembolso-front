@@ -190,7 +190,7 @@ export default function Solicitacao() {
   });
 
   const onSubmit = () => {
-    const newData = getValues();
+    const newData = { id: Date.now(), ...getValues() };
     mutation.mutate(newData);
   };
 
