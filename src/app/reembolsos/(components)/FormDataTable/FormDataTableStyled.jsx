@@ -35,7 +35,7 @@ export const TableStyled = styled.table`
   }
 `;
 
-export const Teste = styled.div`
+export const TableContainer = styled.div`
   margin: 0.5rem;
   max-width: 100%;
   height: 15.625rem;
