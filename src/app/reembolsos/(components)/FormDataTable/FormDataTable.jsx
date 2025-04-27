@@ -69,6 +69,7 @@ function FormDataTable() {
 
   const menuRef = useRef({});
   const buttonRef = useRef({});
+  const scrollContainerRef = useRef();
 
   useEffect(() => {
     const handleClickOutsideOfField = (event) => {
@@ -91,6 +92,32 @@ function FormDataTable() {
     return () => {
       document.removeEventListener("click", handleClickOutsideOfField);
     };
+  }, [activeMenus]);
+
+  useEffect(() => {
+    if (!activeMenus) return;
+
+    const timeoutId = setTimeout(() => {
+      const menu = menuRef.current[activeMenus];
+      const container = scrollContainerRef.current;
+
+      const menuDimensions = menu.getBoundingClientRect();
+      const containerDimensions = container.getBoundingClientRect();
+
+      if (menu && container) {
+        if (
+          menuDimensions.top > containerDimensions.top ||
+          menuDimensions.bottom < containerDimensions.bottom
+        ) {
+          menu.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }
+    }, 50);
+
+    return () => clearTimeout(timeoutId);
   }, [activeMenus]);
 
   const settingARIA = () => {
@@ -126,7 +153,7 @@ function FormDataTable() {
   };
 
   return (
-    <TableContainer>
+    <TableContainer ref={scrollContainerRef}>
       <TableStyled>
         <caption>Dados dos formulários enviados</caption>
         <thead>
