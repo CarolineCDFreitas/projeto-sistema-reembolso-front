@@ -3,7 +3,7 @@ import { MdMoreVert, MdDescription } from "react-icons/md";
 import { RiDeleteBin6Line, RiEditLine } from "react-icons/ri";
 import {
   TableStyled,
-  Teste,
+  TableContainer,
   NameCellContent,
   CompanyCellContent,
   MoreOptionsCell,
@@ -67,17 +67,22 @@ function FormDataTable() {
     }
   };
 
-  const menuRef = useRef();
-  const buttonRef = useRef();
+  const menuRef = useRef({});
+  const buttonRef = useRef({});
 
   useEffect(() => {
     const handleClickOutsideOfField = (event) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        !buttonRef.current.contains(event.target)
-      ) {
-        setActiveMenus(null);
+      if (menuRef.current && buttonRef.current) {
+        const activeMenuRef = menuRef.current[activeMenus];
+        const menuButtonRef = buttonRef.current[activeMenus];
+
+        if (
+          activeMenuRef &&
+          !activeMenuRef.contains(event.target) &&
+          !menuButtonRef.contains(event.target)
+        ) {
+          setActiveMenus(null);
+        }
       }
     };
 
@@ -105,8 +110,6 @@ function FormDataTable() {
 
     localStorage.setItem("DadosTemporarios", JSON.stringify(updatedData));
 
-    console.log("fui excluído");
-
     setActiveMenus(null);
   };
 
@@ -123,7 +126,7 @@ function FormDataTable() {
   };
 
   return (
-    <Teste>
+    <TableContainer>
       <TableStyled>
         <caption>Dados dos formulários enviados</caption>
         <thead>
@@ -166,12 +169,19 @@ function FormDataTable() {
                     aria-controls={`dropdownMenu${item.id}`}
                     title="Mais opções"
                     onClick={(e) => toggleMenus(item.id, e)}
-                    ref={buttonRef}
+                    ref={(element) => {
+                      buttonRef.current[item.id] = element;
+                    }}
                   >
                     <MdMoreVert />
                   </button>
                   {activeMenus === item.id && (
-                    <DropdownMenuContainer role="menu" ref={menuRef}>
+                    <DropdownMenuContainer
+                      role="menu"
+                      ref={(element) => {
+                        menuRef.current[item.id] = element;
+                      }}
+                    >
                       <MenuList id={`dropdownMenu${item.id}`}>
                         <li role="none">
                           <a href="#" role="menuitem" title="Editar">
@@ -251,7 +261,7 @@ function FormDataTable() {
           })}
         </tbody>
       </TableStyled>
-    </Teste>
+    </TableContainer>
   );
 }
 
