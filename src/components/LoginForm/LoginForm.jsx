@@ -1,18 +1,17 @@
 import {
-  InputField,
+  FormStyled,
   InputArea,
   ForgotMyPassword,
   ButtonField,
-} from "./InputStyle";
+  LoginErrorMessage,
+} from "./LoginFormStyled";
 import Button from "../Button/Button";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useRouter } from "next/navigation";
-
-function Input() {
+function LoginForm() {
   const schemas = {
     email: z.string().email("Digite um email válido"),
     senha: z.string().min(6, "A senha tem que ter no mínimo 6 dígitos"),
@@ -20,68 +19,54 @@ function Input() {
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
-    watch,
   } = useForm({
     resolver: zodResolver(z.object(schemas)),
     mode: "onChange",
+    reValidateMode: "onChange",
   });
-
-  const [emailValue, senhaValue] = watch(["email", "senha"], ["", ""]);
-
-  const sending = (data) => {
-    console.log(data);
-  };
-
-  const router = useRouter();
 
   return (
     <>
-      <InputField
-        onSubmit={handleSubmit(sending)}
-        autoComplete="off"
-        id="login"
-      >
+      <FormStyled autoComplete="off" id="login">
         <InputArea
           width="xLarge"
           type="email"
           placeholder="Email"
           name="email"
+          id="email"
+          autoComplete="off"
           {...register("email")}
-          hasError={!!errors.email && emailValue}
+          hasError={!!errors.email}
         />
-        {errors.email && emailValue !== "" && (
-          <span>{errors.email.message}</span>
+        {errors.email && (
+          <LoginErrorMessage betweenInputs>
+            {errors.email.message}
+          </LoginErrorMessage>
         )}
         <InputArea
           width="xLarge"
           type="password"
           placeholder="Senha"
           name="senha"
+          id="senha"
           autoComplete="current-password"
           {...register("senha")}
-          hasError={!!errors.senha && senhaValue}
+          hasError={!!errors.senha}
         />
-        {errors.senha && senhaValue !== "" && (
-          <span>{errors.senha.message}</span>
+        {errors.senha && (
+          <LoginErrorMessage>{errors.senha.message}</LoginErrorMessage>
         )}
-      </InputField>
+      </FormStyled>
 
       <ForgotMyPassword href="/"> Esqueci minha senha</ForgotMyPassword>
 
       <ButtonField>
-        <Button
-          label="Entrar"
-          buttonAction="entrar"
-          // type="submit"
-          // form="login"
-          onClick={() => router.push("/reembolsos")}
-        />
+        <Button label="Entrar" buttonAction="entrar" form="login" />
         <Button label="Criar conta" buttonAction="criar" />
       </ButtonField>
     </>
   );
 }
 
-export default Input;
+export default LoginForm;

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 import { FieldsetBasicStyled } from "../BasicInfoForm/BasicInfoFormStyled";
-import { InputArea } from "@/components/Input/InputStyle";
+import { InputArea } from "@/components/LoginForm/LoginFormStyled";
 
 import dateRange from "../../../../assets/dateRange.svg";
 import downArrow from "../../../../assets/downArrow.svg";
@@ -28,7 +28,6 @@ export const FieldsetSpecificStyled = styled(FieldsetBasicStyled)`
 
   gap: 1.875rem;
   /* border: 2px solid darkgoldenrod; */
-  
 
   div {
     gap: 0.5rem;
@@ -122,7 +121,7 @@ export const SelectContainer = styled.div`
     width: 1.5rem;
     height: 1.5rem;
     top: 18%;
-    right: ${({centro}) => centro ? "1%": "2%"};
+    right: ${({ centro }) => (centro ? "1%" : "2%")};
     z-index: 2;
     pointer-events: none;
   }

@@ -9,7 +9,7 @@ import {
   ExpenseSelect,
   SelectContainer,
 } from "./SpecificInfoFormStyled";
-import { ButtonField, InputArea } from "@/components/Input/InputStyle";
+import { ButtonField, InputArea } from "@/components/LoginForm/LoginFormStyled";
 import { useFormContext } from "react-hook-form";
 
 function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {

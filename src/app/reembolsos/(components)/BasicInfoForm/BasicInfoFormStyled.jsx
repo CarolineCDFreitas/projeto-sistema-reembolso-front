@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { InputArea } from "@/components/Input/InputStyle";
+import { InputArea } from "@/components/LoginForm/LoginFormStyled";
 import { css } from "@emotion/react";
 
 export const FieldsetBasicStyled = styled.fieldset`

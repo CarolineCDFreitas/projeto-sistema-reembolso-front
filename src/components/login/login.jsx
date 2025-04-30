@@ -7,7 +7,7 @@ import {
   Title,
   Paragraph,
 } from "./LoginStyle";
-import Input from "../Input/Input";
+import LoginForm from "../LoginForm/LoginForm";
 import backgroundImage from "../../assets/backgroundLogin.png";
 import logo from "../../assets/logo.png";
 
@@ -21,7 +21,7 @@ function Login() {
           <Title> Boas vindas ao Novo Portal SISPAR</Title>
           <Paragraph>Sistema de Emissão de Boletos e Parcelamento</Paragraph>
         </TextField>
-        <Input />
+        <LoginForm />
       </LoginField>
     </Container>
   );

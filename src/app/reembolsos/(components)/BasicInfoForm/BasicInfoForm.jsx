@@ -5,7 +5,7 @@ import {
   InputSection,
   CharacterCounter,
 } from "./BasicInfoFormStyled";
-import { InputArea } from "@/components/Input/InputStyle";
+import { InputArea } from "@/components/LoginForm/LoginFormStyled";
 import { useFormContext } from "react-hook-form";
 
 function BasicInfoForm({

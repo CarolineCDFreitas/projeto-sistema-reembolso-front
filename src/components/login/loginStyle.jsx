@@ -34,7 +34,7 @@ export const ImageStyle = styled(Image)`
   }
 `;
 
-export const TextField = styled.div`
+export const TextField = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
