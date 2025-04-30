@@ -6,7 +6,7 @@ import {
   Logo,
   Title,
   Paragraph,
-} from "./LoginStyle";
+} from "./LoginStyled";
 import LoginForm from "../LoginForm/LoginForm";
 import backgroundImage from "../../assets/backgroundLogin.png";
 import logo from "../../assets/logo.png";
