@@ -1,5 +1,6 @@
 "use client";
-import Login from "../../components/Login/Login";
+
+import Login from "@/components/Login/Login";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
