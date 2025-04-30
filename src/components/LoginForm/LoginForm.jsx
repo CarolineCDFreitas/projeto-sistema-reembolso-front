@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/services/api/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 function LoginForm() {
@@ -25,7 +25,9 @@ function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitted, dirtyFields },
+    watch,
+    clearErrors,
   } = useForm({
     resolver: zodResolver(z.object(schemas)),
     mode: "onChange",
@@ -34,6 +36,38 @@ function LoginForm() {
   const [errorMessage, setErrorMessage] = useState();
 
   const router = useRouter();
+
+  const [focusedField, setFocusedField] = useState({});
+
+  const updateFocusState = (name, isFocused) => {
+    setFocusedField((prev) => ({ ...prev, [name]: isFocused }));
+  };
+
+  const clearErrorIfNeed = (name) => {
+    const realTimeValues = watch();
+    const fieldValue = realTimeValues[name];
+    const fieldErrors = errors[name];
+
+    if (!isSubmitted && dirtyFields[name] && !fieldValue && fieldErrors) {
+      clearErrors(name);
+    }
+
+    if (dirtyFields[name] && !fieldValue && fieldErrors) {
+      clearErrors(name);
+    }
+  };
+
+  const handleOnFocus = (e) => {
+    const name = e.target.name;
+    updateFocusState(name, true);
+  };
+
+  const handleOnBlur = (e) => {
+    const name = e.target.name;
+
+    updateFocusState(name, false);
+    clearErrorIfNeed(name);
+  };
 
   const sendForm = (data) => {
     return api.post("/colaborador/login", data);
@@ -50,6 +84,14 @@ function LoginForm() {
   const onSubmit = (data) => {
     mutation.mutate(data);
   };
+
+  const [email, senha] = watch(["email", "senha"]);
+
+  useEffect(() => {
+    if (errorMessage && (email || senha)) {
+      setErrorMessage();
+    }
+  }, [email, senha]);
 
   return (
     <>
@@ -70,6 +112,8 @@ function LoginForm() {
             autoComplete="off"
             {...register("email")}
             hasError={!!errors.email || !!errorMessage}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
           />
           {errors.email && (
             <LoginErrorMessage betweenInputs>
@@ -86,6 +130,8 @@ function LoginForm() {
             autoComplete="current-password"
             {...register("senha")}
             hasError={!!errors.senha || !!errorMessage}
+            onFocus={handleOnFocus}
+            onBlur={handleOnBlur}
           />
           {errors.senha && (
             <LoginErrorMessage>{errors.senha.message}</LoginErrorMessage>
