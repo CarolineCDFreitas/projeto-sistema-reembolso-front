@@ -1,5 +1,6 @@
 import {
   FormStyled,
+  FieldsetStyled,
   InputArea,
   ForgotMyPassword,
   ButtonField,
@@ -10,6 +11,10 @@ import Button from "../Button/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/services/api/api";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function LoginForm() {
   const schemas = {
@@ -19,44 +24,76 @@ function LoginForm() {
 
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(z.object(schemas)),
     mode: "onChange",
     reValidateMode: "onChange",
   });
+  const [errorMessage, setErrorMessage] = useState();
+
+  const router = useRouter();
+
+  const sendForm = (data) => {
+    return api.post("/colaborador/login", data);
+  };
+
+  const mutation = useMutation({
+    mutationFn: sendForm,
+    onSuccess: () => router.push("/reembolsos"),
+    onError: (error) => {
+      setErrorMessage(error.response.data.mensagem);
+    },
+  });
+
+  const onSubmit = (data) => {
+    mutation.mutate(data);
+  };
 
   return (
     <>
-      <FormStyled autoComplete="off" id="login">
-        <InputArea
-          width="xLarge"
-          type="email"
-          placeholder="Email"
-          name="email"
-          id="email"
-          autoComplete="off"
-          {...register("email")}
-          hasError={!!errors.email}
-        />
-        {errors.email && (
-          <LoginErrorMessage betweenInputs>
-            {errors.email.message}
-          </LoginErrorMessage>
-        )}
-        <InputArea
-          width="xLarge"
-          type="password"
-          placeholder="Senha"
-          name="senha"
-          id="senha"
-          autoComplete="current-password"
-          {...register("senha")}
-          hasError={!!errors.senha}
-        />
-        {errors.senha && (
-          <LoginErrorMessage>{errors.senha.message}</LoginErrorMessage>
-        )}
+      <FormStyled
+        autoComplete="off"
+        id="login"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <FieldsetStyled>
+          <legend>Informações de login</legend>
+          <label htmlFor="email">Email</label>
+          <InputArea
+            width="xLarge"
+            type="email"
+            placeholder="Email"
+            name="email"
+            id="email"
+            autoComplete="off"
+            {...register("email")}
+            hasError={!!errors.email || !!errorMessage}
+          />
+          {errors.email && (
+            <LoginErrorMessage betweenInputs>
+              {errors.email.message}
+            </LoginErrorMessage>
+          )}
+          <label htmlFor="senha">Senha</label>
+          <InputArea
+            width="xLarge"
+            type="password"
+            placeholder="Senha"
+            name="senha"
+            id="senha"
+            autoComplete="current-password"
+            {...register("senha")}
+            hasError={!!errors.senha || !!errorMessage}
+          />
+          {errors.senha && (
+            <LoginErrorMessage>{errors.senha.message}</LoginErrorMessage>
+          )}
+          {errorMessage && (
+            <LoginErrorMessage>{errorMessage}</LoginErrorMessage>
+          )}
+        </FieldsetStyled>
       </FormStyled>
 
       <ForgotMyPassword href="/"> Esqueci minha senha</ForgotMyPassword>
