@@ -106,7 +106,7 @@ export default function Solicitacao() {
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitSuccessful, dirtyFields, isSubmitted },
+    formState: { errors, dirtyFields, isSubmitted },
     reset,
     getValues,
     watch,
@@ -124,7 +124,7 @@ export default function Solicitacao() {
     const fieldValue = realTimeValues[name];
     const fieldErrors = errors[name];
 
-    if (!isSubmitted && dirtyFields && !fieldValue && fieldErrors) {
+    if (!isSubmitted && dirtyFields[name] && !fieldValue && fieldErrors) {
       clearErrors(name);
     }
   };
