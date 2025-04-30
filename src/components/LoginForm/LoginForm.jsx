@@ -52,6 +52,10 @@ function LoginForm() {
       clearErrors(name);
     }
 
+    if (!dirtyFields[name] && !fieldValue && fieldErrors) {
+      clearErrors(name);
+    }
+
     if (dirtyFields[name] && !fieldValue && fieldErrors) {
       clearErrors(name);
     }
