@@ -13,33 +13,35 @@ export default function Solicitacao() {
   const selectSchema = {
     tipoDeDespesa: z
       .string()
-      .refine((val) => val !== "selecionar", "Selecione uma opção."),
+      .refine((val) => val !== "selecionar", "Selecione uma opção"),
     centro: z
       .string()
-      .refine((val) => val !== "selecionar", "Selecione uma opção."),
+      .refine((val) => val !== "selecionar", "Selecione uma opção"),
     moeda: z
       .string()
-      .refine((val) => val !== "selecionar", "Selecione uma opção."),
+      .refine((val) => val !== "selecionar", "Selecione uma opção"),
   };
 
   const monetarySchema = {
     valorKm: z
       .string()
       .trim()
-      .min(1, "Campo obrigatório")
-      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 000.00")
+      .refine(
+        (val) => !val || /^\d{0,8}\.\d{2}/.test(val),
+        "Use o formato 00.00"
+      )
       .transform((val) => parseFloat(val)),
     valorFaturado: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 000.00")
+      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 00.00")
       .transform((val) => parseFloat(val)),
     despesaTotal: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 000.00")
+      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 00.00")
       .transform((val) => parseFloat(val)),
   };
 
@@ -47,13 +49,13 @@ export default function Solicitacao() {
     nomeCompleto: z
       .string()
       .trim()
-      .min(8, "Digite nome completo (nome e sobrenome).")
-      .regex(/^[A-Za-z\s]+$/, "Não deve conter número."),
+      .min(8, "Digite seu nome completo (nome e sobrenome)")
+      .regex(/^[A-Za-z\s]+$/, "Não deve conter número"),
     prestacaoDeContas: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{6}$/, "Insira 6 dígitos (000000)."),
+      .regex(/^\d{6}$/, "Insira 6 dígitos (000000)"),
     empresa: z
       .string()
       .trim()
@@ -62,45 +64,84 @@ export default function Solicitacao() {
     ordemInterna: z
       .string()
       .trim()
-      .min(1, "Campo obrigatório")
-      .regex(/^\d{4}$/, "Insira 4 dígitos (0000)."),
+      .refine((val) => !val || /^\d{4}$/.test(val), "Insira 4 dígitos (0000)"),
     divisao: z
       .string()
       .trim()
-      .min(1, "Campo obrigatório")
-      .regex(/^\d{3}$/, "Insira 3 dígitos (000)."),
+      .refine((val) => !val || /^\d{3}$/.test(val), "Insira 3 dígitos (000)"),
     pep: z
       .string()
       .trim()
-      .min(1, "Campo obrigatório")
-      .regex(/^\d{3}$/, "Insira 3 dígitos (000)."),
+      .refine((val) => !val || /^\d{3}$/.test(val), "Insira 3 dígitos (000)"),
   };
 
-  const schemas = {
-    ...selectSchema,
-    ...identifiersSchema,
-    ...monetarySchema,
-    data: z
-      .string()
-      .refine(
-        (val) => new Date(val) <= new Date(),
-        "A data não pode ser no futuro"
-      ),
-    distKm: z
-      .string()
-      .trim()
-      .min(1, "Campo obrigatório")
-      .regex(/^\d{1,5}$/, "Somente números (máx. 5 dígitos)")
-      .transform((val) => parseFloat(val)),
-    descricaoMotivo: z
-      .string()
-      .trim()
-      .min(1, "Campo obrigatório")
-      .max(255, "O limite de caracteres é 255."),
-  };
+  const schemas = z
+    .object({
+      ...selectSchema,
+      ...identifiersSchema,
+      ...monetarySchema,
+      data: z
+        .string()
+        .refine(
+          (val) => new Date(val) <= new Date(),
+          "A data não pode ser no futuro"
+        ),
+      distKm: z
+        .string()
+        .trim()
+        .refine(
+          (val) => !val || /^\d{1,5}$/.test(val),
+          "Somente números (máx. 5 dígitos)"
+        )
+        .transform((val) => parseFloat(val)),
+      descricaoMotivo: z
+        .string()
+        .trim()
+        .min(1, "Campo obrigatório")
+        .max(255, "O máximo de caracteres é 255"),
+    })
+    .superRefine((data, ctx) => {
+      if (data.tipoDeDespesa === "combustivel") {
+        if (!data.distKm) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Campo obrigatório",
+            path: ["distKm"],
+          });
+        }
+        if (!data.valorKm) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Campo obrigatório",
+            path: ["valorKm"],
+          });
+        }
+      }
+      if (data.ordemInterna && !data.divisao) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Campo obrigatório",
+          path: ["divisao"],
+        });
+      }
+      if (data.divisao && !data.ordemInterna) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Campo obrigatório",
+          path: ["ordemInterna"],
+        });
+      }
+      if (!data.ordemInterna && !data.divisao && !data.pep) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Preencha este campo ou informe Ordem Interna e Divisão",
+          path: ["pep"],
+        });
+      }
+    });
 
   const methods = useForm({
-    resolver: zodResolver(z.object(schemas)),
+    resolver: zodResolver(schemas),
     mode: "onChange",
   });
 
