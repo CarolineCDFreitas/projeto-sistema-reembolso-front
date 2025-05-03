@@ -192,7 +192,7 @@ function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
             type="text"
             name="distKm"
             id="distKm"
-            placeholder="0000"
+            placeholder="00000"
             {...register("distKm")}
             hasError={errors.distKm}
             autoComplete="off"
@@ -209,7 +209,7 @@ function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
             type="text"
             name="valorKm"
             id="valorKm"
-            placeholder="000.00"
+            placeholder="00.00"
             {...register("valorKm")}
             hasError={errors.valorKm}
             autoComplete="off"
@@ -226,7 +226,7 @@ function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
             type="text"
             name="valorFaturado"
             id="valorFaturado"
-            placeholder="000.00"
+            placeholder="00.00"
             {...register("valorFaturado")}
             hasError={errors.valorFaturado}
             autoComplete="off"
@@ -243,7 +243,7 @@ function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
             type="text"
             name="despesaTotal"
             id="despesaTotal"
-            placeholder="000.00"
+            placeholder="00.00"
             {...register("despesaTotal")}
             hasError={errors.despesaTotal}
             autoComplete="off"
