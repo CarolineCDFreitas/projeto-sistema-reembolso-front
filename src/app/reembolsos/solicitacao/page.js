@@ -8,6 +8,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "@/services/api/api";
 
 export default function Solicitacao() {
   const selectSchema = {
@@ -211,28 +212,24 @@ export default function Solicitacao() {
     renderErrorMessage,
   };
 
-  const temporaryStorage = (newData) => {
-    const existingData = JSON.parse(
-      localStorage.getItem("DadosTemporarios") || "[]"
-    );
-
-    existingData.push(newData);
-
-    localStorage.setItem("DadosTemporarios", JSON.stringify(existingData));
+  const sendForm = (data) => {
+    return api.post("/reembolso/cadastrar", data);
   };
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: temporaryStorage,
+    mutationFn: sendForm,
     onSuccess: () => {
-      queryClient.invalidateQueries(["dataTable"]);
+      queryClient.invalidateQueries(["reembolsos"]);
       reset();
     },
+    onError: (error) => alert(`Erro ao enviar o formulário: ${error.message}`),
   });
 
   const onSubmit = () => {
-    const newData = { id: Date.now(), ...getValues() };
-    mutation.mutate(newData);
+    const data = getValues();
+    mutation.mutate(data);
+    console.log(data);
   };
 
   return (
