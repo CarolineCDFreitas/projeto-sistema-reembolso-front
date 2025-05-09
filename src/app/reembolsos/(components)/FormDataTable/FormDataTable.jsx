@@ -15,13 +15,16 @@ import {
 } from "./FormDataTableStyled";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useRef, useEffect } from "react";
+import api from "@/services/api/api";
 
 function FormDataTable() {
   const fetchDataFromServer = () =>
-    JSON.parse(localStorage.getItem("DadosTemporarios") || "[]");
+    api
+      .get("/reembolso/todas-solicitacoes-em-aberto")
+      .then((response) => response.data);
 
   const { data } = useQuery({
-    queryKey: ["dataTable"],
+    queryKey: ["reembolsos"],
     queryFn: fetchDataFromServer,
   });
 
