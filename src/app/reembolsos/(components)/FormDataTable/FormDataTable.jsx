@@ -132,23 +132,19 @@ function FormDataTable() {
   };
 
   const deleteForm = (id) => {
-    const existingData = JSON.parse(
-      localStorage.getItem("DadosTemporarios") || "[]"
-    );
-
-    const updatedData = existingData.filter((item) => item.id !== id);
-
-    localStorage.setItem("DadosTemporarios", JSON.stringify(updatedData));
-
-    setActiveMenus(null);
+    return api.delete("reembolso/excluir", { data: { id: id } });
   };
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: deleteForm,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["dataTable"]);
+    onSuccess: (data) => {
+      alert(data.data.mensagem);
+      queryClient.invalidateQueries(["reembolsos"]);
+      setActiveMenus(null);
     },
+    onError: (error) =>
+      alert(`Erro ao excluir a solicitação: ${error.message}`),
   });
 
   const deleting = (id) => {
