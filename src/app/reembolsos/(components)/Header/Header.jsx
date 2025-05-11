@@ -23,55 +23,83 @@ const name = "Kim Jungwoo";
 const jobTitle = "Love of My Life";
 
 function Header() {
-  const [menu, setMenu] = useState(false);
+  const [menuToggler, setMenuToggler] = useState(false);
 
   const menuOpener = () => {
-    setMenu(!menu);
+    setMenuToggler(!menuToggler);
   };
 
   const router = useRouter();
 
   return (
-    <HeaderStyled menu={menu}>
-      <Button place="menu" type="button" onClick={() => menuOpener()}>
+    <HeaderStyled menu={menuToggler}>
+      <Button
+        place="menu"
+        type="button"
+        title="Menu"
+        aria-label="Menu de navegação"
+        aria-haspopup="true"
+        onClick={() => menuOpener()}
+      >
         <MdMenuOpen />
       </Button>
-      <UserInfo menu={menu}>
+      <UserInfo menu={menuToggler}>
         <ImageStyled src={Profile} alt="ícone de anônimo" />
         <section menu="false">
           <h2 menu="false">{name}</h2>
           <p>{jobTitle}</p>
         </section>
       </UserInfo>
-      <nav>
-        <NavListStyled menu={menu}>
-          <li menu="false">
-            <Menus href="/reembolsos" aria-label="Início">
+      <nav role="menu">
+        <NavListStyled menu={menuToggler}>
+          <li role="none">
+            <Menus
+              href="/reembolsos"
+              aria-label="Início"
+              title="Início"
+              role="menuitem"
+            >
               <PiHouse />
             </Menus>
             <span>Início</span>
           </li>
-          <li menu="false">
-            <Menus href="/reembolsos/solicitacao" aria-label="Reembolsos">
+          <li role="none">
+            <Menus
+              href="/reembolsos/solicitacao"
+              aria-label="Reembolsos"
+              title="Reembolsos"
+              role="menuitem"
+            >
               <MdOutlineRequestQuote />
             </Menus>
             <span>Reembolsos</span>
           </li>
-          <li menu="false">
-            <Menus href="" aria-label="Análise">
+          <li role="none">
+            <Menus href="" aria-label="Análise" title="Análise" role="menuitem">
               <MdContentPaste />
             </Menus>
             <span>Análise</span>
           </li>
-          <li menu="false">
-            <Menus href="" aria-label="Histórico">
+          <li role="none">
+            <Menus
+              href=""
+              aria-label="Histórico"
+              title="Histórico"
+              role="menuitem"
+            >
               <MdHistory />
             </Menus>
             <span>Histórico</span>
           </li>
         </NavListStyled>
       </nav>
-      <Button place="menu" buttonAction="sair" onClick={() => router.push("/")}>
+      <Button
+        place="menu"
+        buttonAction="sair"
+        title="Sair"
+        aria-label="Logoff"
+        onClick={() => router.push("/")}
+      >
         <MdLogout />
       </Button>
     </HeaderStyled>
