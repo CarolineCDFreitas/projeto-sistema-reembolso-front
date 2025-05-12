@@ -19,10 +19,8 @@ import Profile from "@/assets/imageProfile.png";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteToken } from "@/services/auth/authServices";
-import { useQueryClient } from "@tanstack/react-query";
-
-const name = "Kim Jungwoo";
-const jobTitle = "Love of My Life";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import api from "@/services/api/api";
 
 function Header() {
   const [menuToggler, setMenuToggler] = useState(false);
@@ -34,6 +32,15 @@ function Header() {
   const router = useRouter();
 
   const queryClient = useQueryClient();
+  const fetchUserInfo = () =>
+    api.get("/colaborador/info").then((response) => response.data);
+
+  const { data } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: fetchUserInfo,
+  });
+
+  console.log(data);
 
   return (
     <HeaderStyled menu={menuToggler}>
@@ -50,8 +57,8 @@ function Header() {
       <UserInfo menu={menuToggler}>
         <ImageStyled src={Profile} alt="ícone de anônimo" />
         <section menu="false">
-          <h2 menu="false">{name}</h2>
-          <p>{jobTitle}</p>
+          <h2 menu="false">{data?.nome || "nome"}</h2>
+          <p>{data?.cargo || "cargo"}</p>
         </section>
       </UserInfo>
       <nav role="menu">
