@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import api from "@/services/api/api";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { saveToken } from "@/services/auth/authServices";
 
 function LoginForm() {
   const schemas = {
@@ -79,7 +80,10 @@ function LoginForm() {
 
   const mutation = useMutation({
     mutationFn: sendForm,
-    onSuccess: () => router.push("/reembolsos"),
+    onSuccess: (response) => {
+      router.push("/reembolsos");
+      saveToken(response);
+    },
     onError: (error) => {
       setErrorMessage(error.response.data.mensagem);
     },
