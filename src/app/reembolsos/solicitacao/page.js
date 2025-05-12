@@ -227,9 +227,7 @@ export default function Solicitacao() {
   });
 
   const onSubmit = () => {
-    const data = getValues();
     mutation.mutate(data);
-    console.log(data);
   };
 
   return (
