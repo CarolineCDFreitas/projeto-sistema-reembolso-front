@@ -19,6 +19,7 @@ import Profile from "@/assets/imageProfile.png";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteToken } from "@/services/auth/authServices";
+import { useQueryClient } from "@tanstack/react-query";
 
 const name = "Kim Jungwoo";
 const jobTitle = "Love of My Life";
@@ -31,6 +32,8 @@ function Header() {
   };
 
   const router = useRouter();
+
+  const queryClient = useQueryClient();
 
   return (
     <HeaderStyled menu={menuToggler}>
@@ -98,9 +101,10 @@ function Header() {
         place="menu"
         buttonAction="sair"
         title="Sair"
-        aria-label="Logoff"
+        aria-label="Logout"
         onClick={() => {
           deleteToken();
+          queryClient.clear();
           router.push("/");
         }}
       >
