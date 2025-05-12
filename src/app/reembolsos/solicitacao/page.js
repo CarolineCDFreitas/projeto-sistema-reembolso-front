@@ -226,7 +226,7 @@ export default function Solicitacao() {
     onError: (error) => alert(`Erro ao enviar o formulário: ${error.message}`),
   });
 
-  const onSubmit = () => {
+  const onSubmit = (data) => {
     mutation.mutate(data);
   };
 
