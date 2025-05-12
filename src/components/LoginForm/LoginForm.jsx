@@ -11,7 +11,7 @@ import Button from "../Button/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/services/api/api";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -78,11 +78,14 @@ function LoginForm() {
     return api.post("/colaborador/login", data);
   };
 
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: sendForm,
     onSuccess: (response) => {
-      router.push("/reembolsos");
       saveToken(response);
+      queryClient.clear()
+      router.push("/reembolsos");
     },
     onError: (error) => {
       setErrorMessage(error.response.data.mensagem);
