@@ -40,8 +40,6 @@ function Header() {
     queryFn: fetchUserInfo,
   });
 
-  console.log(data);
-
   return (
     <HeaderStyled menu={menuToggler}>
       <Button
