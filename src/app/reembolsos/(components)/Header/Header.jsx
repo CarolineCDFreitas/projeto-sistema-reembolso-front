@@ -18,6 +18,7 @@ import {
 import Profile from "@/assets/imageProfile.png";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { deleteToken } from "@/services/auth/authServices";
 
 const name = "Kim Jungwoo";
 const jobTitle = "Love of My Life";
@@ -98,7 +99,10 @@ function Header() {
         buttonAction="sair"
         title="Sair"
         aria-label="Logoff"
-        onClick={() => router.push("/")}
+        onClick={() => {
+          deleteToken();
+          router.push("/");
+        }}
       >
         <MdLogout />
       </Button>
