@@ -15,6 +15,7 @@ import {
 } from "./FormDataTableStyled";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useRef, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import api from "@/services/api/api";
 
 function FormDataTable() {
@@ -131,6 +132,13 @@ function FormDataTable() {
     }
   };
 
+  const { register } = useFormContext({
+    mode: "onChange",
+    defaultValues: {
+      idsSelecionados: [],
+    },
+  });
+
   const deleteForm = (id) => {
     return api.delete("reembolso/excluir", { data: { id: id } });
   };
@@ -141,6 +149,7 @@ function FormDataTable() {
     onSuccess: (data) => {
       alert(data.data.mensagem);
       queryClient.invalidateQueries(["reembolsos"]);
+      queryClient.invalidateQueries(["resumo"]);
       setActiveMenus(null);
     },
     onError: (error) =>
@@ -183,8 +192,10 @@ function FormDataTable() {
                   <CheckboxInputArea
                     type="checkbox"
                     name="selected"
-                    id={item.id}
+                    id={`checkbox${item.id}`}
                     title="Selecionar para enviar para análise"
+                    value={item.id}
+                    {...register("idsSelecionados")}
                   />
                 </th>
                 <MoreOptionsCell scope="row" id={`form${item.id}`}>
