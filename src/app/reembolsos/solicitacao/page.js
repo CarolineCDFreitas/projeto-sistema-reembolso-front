@@ -222,6 +222,7 @@ export default function Solicitacao() {
     mutationFn: sendForm,
     onSuccess: () => {
       queryClient.invalidateQueries(["reembolsos"]);
+      queryClient.invalidateQueries(["resumo"]);
       reset();
     },
     onError: (error) => alert(`Erro ao enviar o formulário: ${error.message}`),
@@ -239,7 +240,7 @@ export default function Solicitacao() {
           <SpecificInfoForm {...focusHandlers} />
         </FormStyled>
         <FormDataTable />
-        <SubmitPanel/>
+        <SubmitPanel />
       </FormProvider>
     </>
   );
