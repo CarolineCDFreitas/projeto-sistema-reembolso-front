@@ -157,7 +157,12 @@ function FormDataTable() {
   });
 
   const deleting = (id) => {
-    mutation.mutate(id);
+    if (
+      confirm("Tem certeza que deseja excluir essa solicitação em aberto?") ===
+      true
+    ) {
+      mutation.mutate(id);
+    }
   };
 
   return (
