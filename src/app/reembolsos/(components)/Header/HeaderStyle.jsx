@@ -126,7 +126,7 @@ export const UserInfo = styled.section`
     visibility: ${({ menu }) => (menu ? "visible" : "hidden")};
     width: ${({ menu }) => (menu ? "fit-content" : "0")};
     height: ${({ menu }) => (menu ? "fit-content" : "0")};
-    padding: 0.175rem;
+    padding: 0.375rem;
     animation: ${({ menu }) => (menu ? fadeIn : fadeOut)} 0.3s ease forwards;
     overflow: hidden;
 
@@ -139,6 +139,8 @@ export const UserInfo = styled.section`
       height: ${({ menu }) => (menu ? "fit-content" : "0")};
       /* border: 2px solid darkred; */
       animation: ${({ menu }) => (menu ? fadeIn : fadeOut)} 0.3s ease forwards;
+      margin-block-end: 0.375rem;
+      margin-block-start: 0.375rem;
     }
 
     p {
