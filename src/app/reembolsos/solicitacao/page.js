@@ -3,6 +3,7 @@ import { FormStyled, ErrorMessage } from "../(components)/Form/FormStyled";
 import BasicInfoForm from "../(components)/BasicInfoForm/BasicInfoForm";
 import SpecificInfoForm from "../(components)/SpecificInfoForm/SpecificInfoForm";
 import FormDataTable from "../(components)/FormDataTable/FormDataTable";
+import SubmitPanel from "../(components)/SubmitPanel/SubmitPanel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
@@ -238,6 +239,7 @@ export default function Solicitacao() {
           <SpecificInfoForm {...focusHandlers} />
         </FormStyled>
         <FormDataTable />
+        <SubmitPanel/>
       </FormProvider>
     </>
   );
