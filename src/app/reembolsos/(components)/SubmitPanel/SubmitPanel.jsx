@@ -11,12 +11,20 @@ import {
   SubmitPanelSection,
 } from "./SubmitPanelStyled";
 import { useFormContext } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/services/api/api";
 
 function SubmitPanel() {
-  const { watch } = useFormContext();
-  const selectedIds = watch("idsSelecionados") || [];
+  const { watch, setValue } = useFormContext();
+
+  const selectedIds = () => {
+    const ids = watch("idsSelecionados") || [];
+    if (ids.length === 26) {
+      return [ids];
+    }
+
+    return ids;
+  };
 
   const fetchValuesFromServer = () =>
     api
@@ -28,7 +36,7 @@ function SubmitPanel() {
     queryFn: fetchValuesFromServer,
   });
 
-  const filteredData = data?.filter((item) => selectedIds?.includes(item.id));
+  const filteredData = data?.filter((item) => selectedIds()?.includes(item.id));
 
   const invoicedAmounts = filteredData?.map((item) =>
     parseFloat(item.valorFaturado)
@@ -39,6 +47,37 @@ function SubmitPanel() {
 
   const totalInvoiced = invoicedAmounts?.reduce((acc, curr) => acc + curr, 0);
   const totalExpenses = totalExpense?.reduce((acc, curr) => acc + curr, 0);
+
+  const sendIdsToChangeStatus = (data) => {
+    return api.patch("/reembolso/enviar-para-analise", data);
+  };
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: sendIdsToChangeStatus,
+    onSuccess: (response) => {
+      queryClient.invalidateQueries(["reembolsos"]);
+      queryClient.invalidateQueries(["resumo"]);
+      alert(response.data.mensagem);
+      setValue("idsSelecionados", []);
+    },
+    onError: (error) => alert(`Erro ao enviar o formulário: ${error.message}`),
+  });
+
+  const onSubmit = () => {
+    if (selectedIds().length === 0) {
+      alert("Selecione ao menos um formulário para enviar para análise");
+      return;
+    }
+
+    if (confirm("Deseja enviar o(s) formulário(s) para análise?") === true) {
+      const data = { idsSelecionados: selectedIds() };
+
+      if (data) {
+        mutation.mutate(data);
+      }
+    }
+  };
 
   return (
     <SubmitPanelSection aria-label="Enviar ou cancelar solicitação de reembolso">
@@ -57,11 +96,22 @@ function SubmitPanel() {
         </OutputField>
       </OutputWrapper>
       <ButtonField>
-        <Button buttonAction="enviar" hasIcon place="menu">
+        <Button
+          aria-label="Enviar para análise"
+          buttonAction="enviar"
+          hasIcon
+          place="menu"
+          onClick={() => onSubmit()}
+        >
           <MdCheck />
           Enviar para análise
         </Button>
-        <Button buttonAction="cancelar" hasIcon place="menu">
+        <Button
+          aria-label="Cancelar solicitação"
+          buttonAction="cancelar"
+          hasIcon
+          place="menu"
+        >
           <MdOutlineClose />
           Cancelar Solicitação
         </Button>
