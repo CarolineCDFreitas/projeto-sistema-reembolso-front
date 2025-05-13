@@ -245,7 +245,7 @@ function FormDataTable() {
                 </td>
                 <td>
                   <IconContainer>
-                    <MdDescription />
+                    <MdDescription title={item.descricaoMotivo} />
                   </IconContainer>
                 </td>
                 <td>
