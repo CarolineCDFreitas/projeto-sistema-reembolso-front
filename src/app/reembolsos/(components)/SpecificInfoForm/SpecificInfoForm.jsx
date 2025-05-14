@@ -254,10 +254,10 @@ function SpecificInfoForm({ handleOnFocus, handleOnBlur, renderErrorMessage }) {
           {renderErrorMessage("despesaTotal")}
         </InputSection>
         <ButtonField>
-          <Button buttonAction="salvar" hasIcon>
+          <Button buttonAction="salvar" hasIcon aria-label="salvar rascunho">
             <MdAdd /> <span>Salvar</span>
           </Button>
-          <Button buttonAction="limpar" type="button" onClick={() => reset()}>
+          <Button buttonAction="limpar" type="button" aria-label="resetar inputs" onClick={() => reset()}>
             <RiDeleteBack2Line />
           </Button>
         </ButtonField>
