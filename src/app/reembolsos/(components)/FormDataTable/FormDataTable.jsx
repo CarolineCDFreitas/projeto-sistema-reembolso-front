@@ -171,7 +171,7 @@ function FormDataTable() {
         <caption>Dados dos formulários enviados</caption>
         <thead>
           <tr>
-            <th colSpan={2}>&nbsp;</th>
+            <th colSpan={2}>Ações</th>
             <th scope="col">Colaborador(a)</th>
             <th scope="col">Empresa</th>
             <th scope="col">Nº Prest.</th>
@@ -193,7 +193,7 @@ function FormDataTable() {
           {formatedData.map((item) => {
             return (
               <tr key={item.id}>
-                <th>
+                <td>
                   <CheckboxInputArea
                     type="checkbox"
                     name="selected"
@@ -202,7 +202,7 @@ function FormDataTable() {
                     value={item.id}
                     {...register("idsSelecionados")}
                   />
-                </th>
+                </td>
                 <MoreOptionsCell scope="row" id={`form${item.id}`}>
                   <button
                     aria-label="Mais opções"

@@ -19,6 +19,7 @@ export const TableStyled = styled.table`
     tr:first-of-type {
       th:first-of-type {
         border-top-left-radius: 0.3125rem;
+        color: transparent;
       }
       th:last-of-type {
         border-top-right-radius: 0.3125rem;
@@ -64,7 +65,7 @@ export const CompanyCellContent = styled(BasicCellContent)`
   text-transform: uppercase;
 `;
 
-export const MoreOptionsCell = styled.th`
+export const MoreOptionsCell = styled.td`
   position: relative;
 
   button {

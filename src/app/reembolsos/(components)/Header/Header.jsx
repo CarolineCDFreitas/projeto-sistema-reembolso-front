@@ -59,43 +59,32 @@ function Header() {
           <p>{data?.cargo || "cargo"}</p>
         </section>
       </UserInfo>
-      <nav role="menu">
+      <nav>
         <NavListStyled menu={menuToggler}>
-          <li role="none">
-            <Menus
-              href="/reembolsos"
-              aria-label="Início"
-              title="Início"
-              role="menuitem"
-            >
+          <li>
+            <Menus href="/reembolsos" aria-label="Início" title="Início">
               <PiHouse />
             </Menus>
             <span>Início</span>
           </li>
-          <li role="none">
+          <li>
             <Menus
               href="/reembolsos/solicitacao"
               aria-label="Reembolsos"
               title="Reembolsos"
-              role="menuitem"
             >
               <MdOutlineRequestQuote />
             </Menus>
             <span>Reembolsos</span>
           </li>
-          <li role="none">
-            <Menus href="" aria-label="Análise" title="Análise" role="menuitem">
+          <li>
+            <Menus href="" aria-label="Análise" title="Análise">
               <MdContentPaste />
             </Menus>
             <span>Análise</span>
           </li>
-          <li role="none">
-            <Menus
-              href=""
-              aria-label="Histórico"
-              title="Histórico"
-              role="menuitem"
-            >
+          <li>
+            <Menus href="" aria-label="Histórico" title="Histórico">
               <MdHistory />
             </Menus>
             <span>Histórico</span>
