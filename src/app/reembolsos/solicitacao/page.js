@@ -84,6 +84,7 @@ export default function Solicitacao() {
       ...monetarySchema,
       data: z
         .string()
+        .min(1, "Campo obrigatório")
         .refine(
           (val) => new Date(val) <= new Date(),
           "A data não pode ser no futuro"
@@ -151,7 +152,6 @@ export default function Solicitacao() {
     handleSubmit,
     formState: { errors, dirtyFields, isSubmitted },
     reset,
-    getValues,
     watch,
     clearErrors,
   } = methods;
