@@ -31,20 +31,17 @@ export default function Solicitacao() {
       .refine(
         (val) => !val || /^\d{0,8}\.\d{2}/.test(val),
         "Use o formato 00.00"
-      )
-      .transform((val) => parseFloat(val)),
+      ),
     valorFaturado: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 00.00")
-      .transform((val) => parseFloat(val)),
+      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 00.00"),
     despesaTotal: z
       .string()
       .trim()
       .min(1, "Campo obrigatório")
-      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 00.00")
-      .transform((val) => parseFloat(val)),
+      .regex(/^\d{0,8}\.\d{2}$/, "Use o formato 00.00"),
   };
 
   const identifiersSchema = {
@@ -95,8 +92,7 @@ export default function Solicitacao() {
         .refine(
           (val) => !val || /^\d{1,5}$/.test(val),
           "Somente números (máx. 5 dígitos)"
-        )
-        .transform((val) => parseFloat(val)),
+        ),
       descricaoMotivo: z
         .string()
         .trim()
