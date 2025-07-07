@@ -29,7 +29,7 @@ export default function Solicitacao() {
       .string()
       .trim()
       .refine(
-        (val) => !val || /^\d{0,8}\.\d{2}/.test(val),
+        (val) => !val || /^\d{0,8}\.\d{2}$/.test(val),
         "Use o formato 00.00"
       ),
     valorFaturado: z
@@ -225,6 +225,7 @@ export default function Solicitacao() {
   });
 
   const onSubmit = (data) => {
+    console.log(data)
     mutation.mutate(data);
   };
 
