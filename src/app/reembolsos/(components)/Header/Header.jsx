@@ -99,7 +99,7 @@ function Header() {
         onClick={() => {
           deleteToken();
           queryClient.clear();
-          router.push("/");
+          router.push("/login");
         }}
       >
         <MdLogout />
