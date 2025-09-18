@@ -40,6 +40,10 @@ export const InputArea = styled.input`
       hasError ? "0.125rem solid #A60B2F" : "0.05rem solid #23282f"};
     border-radius: 0.375rem;
   }
+
+  @media (max-width: 481px) {
+    width: ${({ responsive }) => (responsive ? widthSize.xLarge : null)};
+  }
 `;
 
 export const FormStyled = styled.form`

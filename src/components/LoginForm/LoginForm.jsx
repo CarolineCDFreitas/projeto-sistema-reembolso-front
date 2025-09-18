@@ -84,7 +84,7 @@ function LoginForm() {
     mutationFn: sendForm,
     onSuccess: (response) => {
       saveToken(response);
-      queryClient.clear()
+      queryClient.clear();
       router.push("/reembolsos");
     },
     onError: (error) => {
@@ -157,7 +157,13 @@ function LoginForm() {
 
       <ButtonField>
         <Button label="Entrar" buttonAction="entrar" form="login" />
-        <Button label="Criar conta" buttonAction="criar" />
+        <Button
+          label="Criar conta"
+          buttonAction="criar"
+          onClick={() => {
+            router.push("/login/criar-conta");
+          }}
+        />
       </ButtonField>
     </>
   );
