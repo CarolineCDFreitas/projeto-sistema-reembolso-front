@@ -18,7 +18,7 @@ function CreateAccountForm() {
   return (
     <Container>
       <Heading>
-        <Logo src={logo} alt="logo com as iniciais da empresa Wilson Sons" />
+        <Logo src={logo} alt="logo com as iniciais da empresa WilsonSons" />
         <h1>Criar Nova Conta</h1>
         <h3>Preencha seus dados para acessar o sistema</h3>
       </Heading>
